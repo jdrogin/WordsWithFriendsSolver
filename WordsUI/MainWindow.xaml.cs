@@ -38,6 +38,7 @@ namespace WordsUI
             this.HandLetters.SetLetters(new string(hand.Select(x => x.Letter).ToArray()));
 
             this.solvedBoards = this.boardSolver.Solve(board, hand);
+            this.solvedBoardSelectedIndex = 0;
 
             this.SetSolvedBoardsList(this.solvedBoards);
             this.SetSelectedSolvedBoard();
@@ -45,6 +46,12 @@ namespace WordsUI
 
         void SetSelectedSolvedBoard()
         {
+            if (this.solvedBoards.Count == 0)
+            {
+                this.StatusText.Text = string.Format("No solved boards");
+                return;
+            }
+
             Board board = this.solvedBoards[this.solvedBoardSelectedIndex];
             this.StatusText.Text = string.Format("Showing: {0}/{1}, score: {2}", this.solvedBoardSelectedIndex + 1, this.solvedBoards.Count, board.TransientScore.TotalScore);
 
