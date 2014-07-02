@@ -102,9 +102,9 @@ namespace WordsLib
 
             using (MagickImage image = new MagickImage(src))
             {
-                for (int x = 0; x < 15; x++)
+                for (int x = 0; x < Board.X_Cell_Count; x++)
                 {
-                    for (int y = 0; y < 15; y++)
+                    for (int y = 0; y < Board.Y_Cell_Count; y++)
                     {
                         int cellStartX = gridStartX + x * cellWidth;
                         int cellStartY = gridStartY + y * cellHeight;

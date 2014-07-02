@@ -50,18 +50,18 @@ namespace WordsUI
 
             this.BoardGrid.Children.Clear();
 
-            for (int rowIndex = 0; rowIndex < Board.X_Cell_Count; rowIndex++)
+            for (int y = 0; y < Board.Y_Cell_Count; y++)
             {
-                for (int colIndex = 0; colIndex < Board.Y_Cell_Count; colIndex++)
+                for (int x = 0; x < Board.X_Cell_Count; x++)
                 {
-                    BoardCell boardCell = board.GetCell(colIndex, rowIndex);
+                    BoardCell boardCell = board.GetCell(x, y);
 
                     TileCell cell = new TileCell(boardCell.CellType);
-                    cell.X = rowIndex;
-                    cell.Y = colIndex;
+                    cell.X = x;
+                    cell.Y = y;
 
-                    cell.SetValue(Grid.RowProperty, rowIndex);
-                    cell.SetValue(Grid.ColumnProperty, colIndex);
+                    cell.SetValue(Grid.RowProperty, y);
+                    cell.SetValue(Grid.ColumnProperty, x);
                     this.BoardGrid.Children.Add(cell);
 
                     // add letter if exists

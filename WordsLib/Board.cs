@@ -514,7 +514,7 @@ namespace WordsLib
                 || (rowIndex == 6 && colIndex == 10)
                 || (rowIndex == 8 && colIndex == 4)
                 || (rowIndex == 8 && colIndex == 10)
-                || (rowIndex == 10 && colIndex == 3)
+                || (rowIndex == 10 && colIndex == 2)
                 || (rowIndex == 10 && colIndex == 6)
                 || (rowIndex == 10 && colIndex == 8)
                 || (rowIndex == 10 && colIndex == 12)
