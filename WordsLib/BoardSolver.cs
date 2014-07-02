@@ -23,8 +23,11 @@ namespace WordsLib
             List<Board> savedBoards = new List<Board>();
             foreach (BoardCell startCell in startCells)
             {
-                this.TryHandRecursive(savedBoards, board, hand, startCell.X, startCell.Y, PlacementOrientation.Horizontal);
-                this.TryHandRecursive(savedBoards, board, hand, startCell.X, startCell.Y, PlacementOrientation.Vertical);
+                foreach (LetterTile[] handWithoutBlanks in this.ExpandBlanks(hand))
+                {
+                    this.TryHandRecursive(savedBoards, board, handWithoutBlanks, startCell.X, startCell.Y, PlacementOrientation.Horizontal);
+                    this.TryHandRecursive(savedBoards, board, handWithoutBlanks, startCell.X, startCell.Y, PlacementOrientation.Vertical);
+                }
             }
 
             savedBoards = savedBoards.OrderByDescending(x => x.TransientScore.TotalScore).ToList();
@@ -33,9 +36,41 @@ namespace WordsLib
             return savedBoards;
         }
 
+        private List<LetterTile[]> ExpandBlanks(LetterTile[] hand)
+        {
+            if (!hand.Any(x => x.Letter == LetterTile.BLANK))
+            {
+                // no blanks
+                return new List<LetterTile[]>() { hand };
+            }
+
+            List<LetterTile[]> allHands = new List<LetterTile[]>();
+            int blankCount = hand.Count(x => x.Letter == LetterTile.BLANK);
+            LetterTile[] handWithoutBlanks = hand.Where(x => x.Letter != LetterTile.BLANK).ToArray();
+
+            // initialize all hands with the letters in the hand without the blanks.
+            allHands.Add(hand.Where(x => x.Letter != LetterTile.BLANK).ToArray());
+
+            for (int blankIndex = 0; blankIndex < blankCount; blankIndex++)
+            {
+                foreach (LetterTile[] handToAddTo in allHands.ToList())
+                {
+                    allHands.Remove(handToAddTo);
+                    foreach (char c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                    {
+                        List<LetterTile> newHand = handToAddTo.ToList();
+                        newHand.Add(new LetterTile(c, 0, true));
+                        allHands.Add(newHand.ToArray());
+                    }
+                }
+            }
+
+            return allHands;
+        }
+
         private void TryHandRecursive(List<Board> savedBoards, Board board, LetterTile[] hand, int startX, int startY, PlacementOrientation placementOrientation)
         {
-            if (hand.Length == 0)// || savedBoards.Count > 100)
+            if (hand.Length == 0)
             {
                 return;
             }

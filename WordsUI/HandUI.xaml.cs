@@ -27,7 +27,6 @@ namespace WordsUI
         {
             InitializeComponent();
             this.LetterTiles = new List<LetterTile>();
-            this.SetLetters("abcdef?");
         }
 
         public void SetLetters(string letters)
@@ -39,7 +38,7 @@ namespace WordsUI
             foreach (char letter in letters)
             {
                 LetterTile letterTile = new LetterTile(letter, 0, true);
-                if (letter == '?')
+                if (letter == LetterTile.BLANK)
                 {
                     letterTile.Letter = ' ';
                 }

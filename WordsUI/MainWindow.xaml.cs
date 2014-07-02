@@ -25,30 +25,16 @@ namespace WordsUI
         {
             this.wordLookup = new WordsLookup();
             this.wordLookup.Init();
-
-            //string boardImgSource = System.IO.Path.Combine(Environment.CurrentDirectory, "boards/Screenshot_2014-06-30-09-46-04.png");
-            //this.Init(boardImgSource);
         }
 
         void Init(string boardImgSource)
-        {
-            
-            BoardOCR boardOcr = new BoardOCR();
+        {            
             this.BoardImage.Source = new BitmapImage(new Uri(boardImgSource));
-            Board board = boardOcr.OCR(boardImgSource);
-            LetterTile[] hand = boardOcr.HandOCR(boardImgSource);
+            
+            Board board = BoardOCR.OCR(boardImgSource);
+            LetterTile[] hand = BoardOCR.HandOCR(boardImgSource);
 
             this.boardSolver = new BoardSolver(this.wordLookup);
-
-            //LetterTile[] hand = new LetterTile[] { new LetterTile('I', 1, true),
-            //    new LetterTile('Z', 10, true),
-            //    new LetterTile('I', 1, true),
-            //    new LetterTile('N', 2, true),
-            //    new LetterTile('E', 1, true),
-            //    new LetterTile('G', 3, true),
-            //    new LetterTile('H', 3, true) };
-
-            ////this.HandLetters.SetLetters("IZINEGH");
             this.HandLetters.SetLetters(new string(hand.Select(x => x.Letter).ToArray()));
 
             this.solvedBoards = this.boardSolver.Solve(board, hand);
@@ -118,19 +104,12 @@ namespace WordsUI
 
         private void ChooseBoardButton_Click(object sender, RoutedEventArgs e)
         {
-            // Create OpenFileDialog
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            // Set filter for file extension and default file extension
             dlg.DefaultExt = ".png";
 
-            // Display OpenFileDialog by calling ShowDialog method
             Nullable<bool> result = dlg.ShowDialog();
-
-            // Get the selected file name and display in a TextBox
             if (result == true)
             {
-                // Open document
                 string filename = dlg.FileName;
                 this.Init(filename);
             }

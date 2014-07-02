@@ -8,6 +8,7 @@ namespace WordsLib
 {
     public class LetterTile
     {
+        public const char BLANK = '?';
         public char Letter { get; set; }
         public int PointValue { get; set; }
         public bool IsTransient { get; set; }

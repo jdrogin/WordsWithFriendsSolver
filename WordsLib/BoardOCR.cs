@@ -2,15 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WordsLib
 {
-    public class BoardOCR
+    public static class BoardOCR
     {
-        public LetterTile[] HandOCR(string screenImg)
+        public static LetterTile[] HandOCR(string screenImg)
         {
             Func<Pixel, bool> isBluePixel = (Pixel pixel) =>
             {
@@ -63,7 +60,7 @@ namespace WordsLib
                     {
                         int cellWidth = cellRightX - cellLeftX;
                         int cellHeight = cellBottomY - cellTopY;
-                        LetterTile letterTile = this.GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                        LetterTile letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
 
                         //using (MagickImage image2 = new MagickImage(src))
                         //{
@@ -75,6 +72,11 @@ namespace WordsLib
                         {
                             letterTiles.Add(letterTile);
                         }
+                        else
+                        {
+                            // this is a blank tile
+                            letterTiles.Add(new LetterTile(LetterTile.BLANK, 0, true));
+                        }
 
                         cellRightX = 0;
                     }
@@ -84,7 +86,7 @@ namespace WordsLib
             return letterTiles.ToArray();
         }
 
-        public Board OCR(string screenImg)
+        public static Board OCR(string screenImg)
         {
             DateTime start = DateTime.Now;
 
@@ -107,7 +109,7 @@ namespace WordsLib
                         int cellStartX = gridStartX + x * cellWidth;
                         int cellStartY = gridStartY + y * cellHeight;
 
-                        LetterTile letterTile = this.GetLetterTileOrNull(image, cellStartX, cellStartY, cellWidth, cellHeight, false, LetterOCR.GetBoardCharacterMap);
+                        LetterTile letterTile = GetLetterTileOrNull(image, cellStartX, cellStartY, cellWidth, cellHeight, false, LetterOCR.GetBoardCharacterMap);
                         if (letterTile != null)
                         {
                             board.SetLetter(x, y, letterTile);
@@ -120,7 +122,7 @@ namespace WordsLib
             return board;
         }
 
-        private LetterTile GetLetterTileOrNull(MagickImage image, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
+        private static LetterTile GetLetterTileOrNull(MagickImage image, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
         {
             char matchedChar = '0';
             int letterPointValue = 0;
@@ -135,7 +137,7 @@ namespace WordsLib
                 foreach (LetterOCRPoint pnt in points)
                 {
                     Pixel pixel = image.GetReadOnlyPixels(cellStartX + pnt.x, cellStartY + pnt.y, 1, 1)[0, 0];
-                    bool pointMatches = this.IsLetterPixel(pixel);
+                    bool pointMatches = IsLetterPixel(pixel);
 
                     if (!pointMatches)
                     {
@@ -153,7 +155,7 @@ namespace WordsLib
                     // get points value in upper right.  May be blank tile, will not have any letter color pixels in upper right
                     foreach (Pixel pixel in image.GetReadOnlyPixels(cellStartX + 32, cellStartY + 0, cellWidth - 32, 13))
                     {
-                        if (this.IsLetterPixel(pixel))
+                        if (IsLetterPixel(pixel))
                         {
                             letterColorPixelCount++;
                         }
@@ -174,7 +176,7 @@ namespace WordsLib
             }
         }
 
-        private bool IsLetterPixel(Pixel pixel)
+        private static bool IsLetterPixel(Pixel pixel)
         {
             // RGBA:
             int red = Convert.ToInt32(pixel.GetChannel(0) / 257);
@@ -196,7 +198,7 @@ namespace WordsLib
         /// </summary>
         /// <param name="folder">The folder path, relative or absolute.</param>
         /// <param name="logger">The logger, use null to supress logging.</param>
-        private void ClearFolder(string folder)
+        private static void ClearFolder(string folder)
         {
             if (Directory.Exists(folder))
             {
