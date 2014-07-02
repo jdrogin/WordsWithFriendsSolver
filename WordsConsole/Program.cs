@@ -1,5 +1,4 @@
-﻿using Common;
-using ImageMagick;
+﻿using ImageMagick;
 using System;
 using System.Collections.Generic;
 using System.IO;
