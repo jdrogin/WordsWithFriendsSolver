@@ -110,7 +110,7 @@ namespace WordsLib
                             continue;
                         }
 
-                        if (IsLetterPixel(pixel) && PixelIsSurroundedBySameColor(image, pixel, 0.10))
+                        if (IsLetterPixel(pixel) && PixelIsSurroundedBySameColor(image, pixel, 3, 0.10))
                         {
                             Console.Write(string.Format(" {0},{1}", pixel.X, pixel.Y));
                             letterMap.AddXYPoint(pixel.X, pixel.Y);
@@ -123,6 +123,39 @@ namespace WordsLib
             }
 
             PrintLetterMapsSwitchStatementToConsole(letterMaps, 256);
+        }
+
+        static bool PixelIsSurroundedBySameColor(MagickImage image, Pixel pixel, int radius, double percentTolerance)
+        {
+            if (pixel.X - radius < 0
+                || pixel.X + radius >= image.Width
+                || pixel.Y - radius < 0
+                || pixel.Y + radius >= image.Height)
+            {
+                return false;
+            }
+
+            float valueTolerance = Convert.ToInt32(257 * percentTolerance);
+            int red = Convert.ToInt32(pixel.GetChannel(0) / 257);
+            int green = Convert.ToInt32(pixel.GetChannel(1) / 257);
+            int blue = Convert.ToInt32(pixel.GetChannel(2) / 257);
+
+            foreach (Pixel pixelToCompare in image.GetReadOnlyPixels(pixel.X, pixel.Y, radius * 2 + 1, radius * 2 + 1))
+            {
+                int redToCompare = Convert.ToInt32(pixelToCompare.GetChannel(0) / 257);
+                int greenToCompare = Convert.ToInt32(pixelToCompare.GetChannel(1) / 257);
+                int blueToCompare = Convert.ToInt32(pixelToCompare.GetChannel(2) / 257);
+
+                if (Math.Abs(red - redToCompare) > valueTolerance
+                    || Math.Abs(green - greenToCompare) > valueTolerance
+                    || Math.Abs(blue - blueToCompare) > valueTolerance)
+                {
+                    return false;
+                }
+            }
+
+            // matches
+            return true;
         }
 
         static bool PixelIsSurroundedBySameColor(MagickImage image, Pixel pixel, double percentTolerance)
@@ -339,6 +372,10 @@ namespace WordsLib
 
                 PrintLetterShapeToConsole(letterMap);
             }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
             foreach (LetterOCR letterMap in letterMaps)
             {

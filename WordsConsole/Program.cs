@@ -28,10 +28,9 @@ namespace WordsConsole
                 //WordsLookup dict = new WordsLookup();
                 //dict.Init();
 
-                //BoardOCR ocr = new BoardOCR();
-                //foreach (string file in Directory.GetFiles(@"C:\Users\jdrogin\Downloads", "Screenshot_*.png"))
+                //foreach (string file in Directory.GetFiles(@"C:\projects\WordsWithFriendsSolver\trunk\WordsLib\boards", "Screenshot_2014-07-04-20-54-10.png"))
                 //{
-                //    ocr.HandOCR(file);
+                //    BoardOCR.HandOCR(file);
                 //}
             }
             catch (Exception ex)

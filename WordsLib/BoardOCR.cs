@@ -58,15 +58,27 @@ namespace WordsLib
 
                     if (cellLeftX < cellRightX)
                     {
+                        // tile identified
                         int cellWidth = cellRightX - cellLeftX;
                         int cellHeight = cellBottomY - cellTopY;
                         LetterTile letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
 
-                        //using (MagickImage image2 = new MagickImage(src))
-                        //{
-                        //    image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
-                        //    image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
-                        //}
+                        ////using (MagickImage image2 = new MagickImage(src))
+                        ////{
+                        ////    image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
+                        ////    image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
+                        ////}
+
+                        if (letterTile == null)
+                        {
+                            // the hand letter are not always consistent
+                            // try shifting OCR right and left before concluding this is a blank tile
+                            letterTile = GetLetterTileOrNull(image, cellLeftX + 1, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                            if (letterTile == null)
+                            {
+                                letterTile = GetLetterTileOrNull(image, cellLeftX - 1, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                            }
+                        }
 
                         if (letterTile != null)
                         {
@@ -76,6 +88,7 @@ namespace WordsLib
                         {
                             // this is a blank tile
                             letterTiles.Add(new LetterTile(LetterTile.BLANK, 0, true));
+
                         }
 
                         cellRightX = 0;
