@@ -9,6 +9,8 @@ namespace WordsLib
     {
         public static LetterTile[] HandOCR(string screenImg)
         {
+            DateTime start = DateTime.Now;
+
             Func<Pixel, bool> isBluePixel = (Pixel pixel) =>
             {
                 int r = Convert.ToInt32(pixel.GetChannel(0) / 257);
@@ -29,7 +31,6 @@ namespace WordsLib
                 return Math.Abs(r - 170) <= tolerance && Math.Abs(g - 103) <= tolerance && Math.Abs(b - 43) <= tolerance;
             };
 
-            DateTime start = DateTime.Now;
             string src = screenImg;
             Console.WriteLine(Path.GetFileName(src));
 
@@ -96,6 +97,7 @@ namespace WordsLib
                 }
             }
 
+            System.Diagnostics.Debug.WriteLine("$$$$$$ Hand OCR completed in " + DateTime.Now.Subtract(start).TotalSeconds.ToString("0.000") + " seconds");
             return letterTiles.ToArray();
         }
 
