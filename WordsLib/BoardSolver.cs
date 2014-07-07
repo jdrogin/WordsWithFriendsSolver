@@ -8,6 +8,7 @@ namespace WordsLib
 {
     public class BoardSolver
     {
+        private int iterationsPerSolve = 0;
         private WordsLookup lookup;
 
         public BoardSolver(WordsLookup lookup)
@@ -18,6 +19,7 @@ namespace WordsLib
         public List<Board> Solve(Board board, LetterTile[] hand)
         {
             DateTime start = DateTime.Now;
+            this.iterationsPerSolve = 0;
             List<BoardCell> startCells = this.GetStartCells(board);
 
             List<Board> savedBoards = new List<Board>();
@@ -75,6 +77,8 @@ namespace WordsLib
                 return;
             }
 
+            this.iterationsPerSolve++;
+
             if (placementOrientation == PlacementOrientation.Horizontal)
             {
                 foreach (LetterTile letterInHand in hand)
@@ -84,6 +88,7 @@ namespace WordsLib
                     if (left != -1)
                     {
                         Board cloneBoard = board.Clone();
+
                         cloneBoard.SetLetter(left, startY, letterInHand);
 
                         if (this.IsPlayedTileScorable(cloneBoard, left, startY))
