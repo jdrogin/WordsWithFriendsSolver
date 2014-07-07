@@ -422,29 +422,46 @@ namespace WordsLib
             bool isHorizontal = topY == bottomY;
             int wordMultiplier = 1;
             int wordScore = 0;
+            int transientLetterCount = 0;
+            BoardCell[] cells = null;
 
             if (isHorizontal)
             {
+                cells = new BoardCell[rightX - leftX + 1];
                 for(int x = leftX; x <= rightX; x++)
                 {
-                    BoardCell cell = this.GetCell(x, topY);
-                    unitScore.Word += cell.LetterTile.Letter;
-                    wordScore += cell.LetterTile.PointValue * this.GetLetterMultiplier(cell);
-                    wordMultiplier *= this.GetWordMultiplier(cell);
+                    cells[x - leftX] = this.GetCell(x, topY);
                 }
             }
             else
             {
+                // vertical
+                cells = new BoardCell[bottomY - topY + 1];
                 for (int y = topY; y <= bottomY; y++)
                 {
-                    BoardCell cell = this.GetCell(leftX, y);
-                    unitScore.Word += cell.LetterTile.Letter;
-                    wordScore += cell.LetterTile.PointValue * this.GetLetterMultiplier(cell);
-                    wordMultiplier *= this.GetWordMultiplier(cell);
+                    cells[y - topY] = this.GetCell(leftX, y);
+                }
+            }
+
+            // calculate score from cells array
+            foreach (BoardCell cell in cells)
+            {
+                unitScore.Word += cell.LetterTile.Letter;
+                wordScore += cell.LetterTile.PointValue * this.GetLetterMultiplier(cell);
+                wordMultiplier *= this.GetWordMultiplier(cell);
+                if (cell.IsTransient)
+                {
+                    transientLetterCount++;
                 }
             }
 
             unitScore.Score = wordScore * wordMultiplier;
+            if (transientLetterCount == 7)
+            {
+                unitScore.Score += UnitScore.SEVEN_LETTER_BONUS_VALUE;
+                unitScore.IncludesBonus = true;
+            }
+
             return unitScore;
         }
 

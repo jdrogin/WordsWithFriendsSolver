@@ -26,6 +26,14 @@ namespace WordsLib
             }
         }
 
+        public bool IncludesBonus
+        {
+            get
+            {
+                return this.Words != null && this.Words.Any(x => x.IncludesBonus);
+            }
+        }
+
         public void AddWord(UnitScore unit)
         {
             if (this.Words == null)
@@ -53,6 +61,8 @@ namespace WordsLib
 
     public class UnitScore
     {
+        public static int SEVEN_LETTER_BONUS_VALUE = 35;
+
         public int StartX { get; set; }
         public int EndX { get; set; }
         public int StartY { get; set; }
@@ -60,5 +70,6 @@ namespace WordsLib
 
         public string Word { get; set; }
         public int Score { get; set; }
+        public bool IncludesBonus { get; set; }
     }
 }

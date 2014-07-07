@@ -92,7 +92,8 @@ namespace WordsUI
             for (int index = 0; index < boards.Count; index++)
             {
                 TransientScore score = boards[index].TransientScore;
-                string text = string.Format("({0}) - {1}/{2}", score.TotalScore, score.BestWord.Word, score.BestWord.Score);
+                string bonusIndicator = score.IncludesBonus ? "+" : string.Empty;
+                string text = string.Format("({0}{1}) - {2}/{3}", score.TotalScore, bonusIndicator, score.BestWord.Word, score.BestWord.Score);
                 this.SolvedList.Items.Add(new TextBlock() { Text = text, Tag = index });
             }
         }

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:WordsUI"
-        Title="Words Solver" Width="1400" Height="900">
+        Title="Words Solver" Width="1440" Height="900">
     <Grid>
         <Grid.Resources>
             <GridLength x:Key="CellWidth">48</GridLength>
@@ -11,7 +11,7 @@
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="800" />
-            <ColumnDefinition Width="160" />
+            <ColumnDefinition Width="200" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
