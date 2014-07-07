@@ -139,51 +139,56 @@ namespace WordsLib
 
         private static LetterTile GetLetterTileOrNull(MagickImage image, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
         {
-            char matchedChar = '0';
-            int letterPointValue = 0;
-
             // check in specific order so that for example: 'O' is identified before 'C' because 'C' may be a subset of 'O' pixels.
             foreach (char currChar in new char[] { 
-                            'A', 'B', 'D', 'E', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'R', 'P', 'Q', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'O', 'C', 'F', 'I' })
+                            'A', 'B', 'D', 'E', 'G', 'H', 'J', 'K', 'U', 'L', 'M', 'N', 'R', 'P', 'Q', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', 'O', 'C', 'F', 'I' })
             {
-                LetterOCRPoint[] points = getCharacterMap(currChar).Points;
-                bool allPointsMatch = true;
+                LetterTile letterTile = GetLetterTileOrNull(image, currChar, cellStartX, cellStartY, cellWidth, cellHeight, isTransient, getCharacterMap);
 
-                foreach (LetterOCRPoint pnt in points)
+                // match found
+                if (letterTile != null)
                 {
-                    Pixel pixel = image.GetReadOnlyPixels(cellStartX + pnt.x, cellStartY + pnt.y, 1, 1)[0, 0];
-                    bool pointMatches = IsLetterPixel(pixel);
-
-                    if (!pointMatches)
-                    {
-                        allPointsMatch = false;
-                        break;
-                    }
+                    return letterTile;
                 }
+            }
 
-                // all points match
-                if (allPointsMatch)
+            return null;
+        }
+
+        private static LetterTile GetLetterTileOrNull(MagickImage image, char currChar, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
+        {
+            LetterOCRPoint[] points = getCharacterMap(currChar).Points;
+            bool allPointsMatch = true;
+
+            foreach (LetterOCRPoint pnt in points)
+            {
+                Pixel pixel = image.GetReadOnlyPixels(cellStartX + pnt.x, cellStartY + pnt.y, 1, 1)[0, 0];
+                bool pointMatches = IsLetterPixel(pixel);
+
+                if (!pointMatches)
                 {
-                    matchedChar = currChar;
-                    int letterColorPixelCount = 0;
-
-                    // get points value in upper right.  May be blank tile, will not have any letter color pixels in upper right
-                    foreach (Pixel pixel in image.GetReadOnlyPixels(cellStartX + 32, cellStartY + 0, cellWidth - 32, 13))
-                    {
-                        if (IsLetterPixel(pixel))
-                        {
-                            letterColorPixelCount++;
-                        }
-                    }
-
-                    letterPointValue = letterColorPixelCount >= 3 ? LetterOCR.GetLetterPointValue(matchedChar) : 0;
+                    allPointsMatch = false;
                     break;
                 }
             }
 
-            if (matchedChar != '0')
+            // all points match
+            if (allPointsMatch)
             {
-                return new LetterTile(matchedChar, letterPointValue, isTransient);
+                int letterColorPixelCount = 0;
+
+                // get points value in upper right.  May be blank tile, will not have any letter color pixels in upper right
+                foreach (Pixel pixel in image.GetReadOnlyPixels(cellStartX + 32, cellStartY + 0, cellWidth - 32, 13))
+                {
+                    if (IsLetterPixel(pixel))
+                    {
+                        letterColorPixelCount++;
+                    }
+                }
+
+                int letterPointValue = letterColorPixelCount >= 3 ? LetterOCR.GetLetterPointValue(currChar) : 0;
+
+                return new LetterTile(currChar, letterPointValue, isTransient);
             }
             else
             {

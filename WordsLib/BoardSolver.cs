@@ -38,6 +38,14 @@ namespace WordsLib
             return savedBoards;
         }
 
+        public int IterationsPerSolve
+        {
+            get
+            {
+                return this.iterationsPerSolve;
+            }
+        }
+
         private List<LetterTile[]> ExpandBlanks(LetterTile[] hand)
         {
             if (!hand.Any(x => x.Letter == LetterTile.BLANK))
@@ -88,7 +96,6 @@ namespace WordsLib
                     if (left != -1)
                     {
                         Board cloneBoard = board.Clone();
-
                         cloneBoard.SetLetter(left, startY, letterInHand);
 
                         if (this.IsPlayedTileScorable(cloneBoard, left, startY))

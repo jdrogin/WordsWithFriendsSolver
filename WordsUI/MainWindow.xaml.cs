@@ -14,6 +14,7 @@ namespace WordsUI
         private BoardSolver boardSolver;
         private List<Board> solvedBoards;
         private int solvedBoardSelectedIndex = 0;
+        private int iterationsPerSolve = 0;
 
         public MainWindow()
         {
@@ -38,6 +39,7 @@ namespace WordsUI
             this.HandLetters.SetLetters(new string(hand.Select(x => x.Letter).ToArray()));
 
             this.solvedBoards = this.boardSolver.Solve(board, hand);
+            this.iterationsPerSolve = this.boardSolver.IterationsPerSolve;
             this.solvedBoardSelectedIndex = 0;
 
             this.SetSolvedBoardsList(this.solvedBoards);
@@ -54,6 +56,7 @@ namespace WordsUI
 
             Board board = this.solvedBoards[this.solvedBoardSelectedIndex];
             this.StatusText.Text = string.Format("Showing: {0}/{1}, score: {2}", this.solvedBoardSelectedIndex + 1, this.solvedBoards.Count, board.TransientScore.TotalScore);
+            this.StatusText.Text += string.Format("{0}Iterations: {1}", Environment.NewLine, string.Format("{0:n0}", this.iterationsPerSolve));
 
             this.BoardGrid.Children.Clear();
 

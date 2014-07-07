@@ -110,7 +110,7 @@ namespace WordsLib
                             continue;
                         }
 
-                        if (IsLetterPixel(pixel) && PixelIsSurroundedBySameColor(image, pixel, 3, 0.10))
+                        if (IsLetterPixel(pixel) && PixelIsSurroundedBySameColor(image, pixel, 2, 0.05))
                         {
                             Console.Write(string.Format(" {0},{1}", pixel.X, pixel.Y));
                             letterMap.AddXYPoint(pixel.X, pixel.Y);
@@ -140,7 +140,7 @@ namespace WordsLib
             int green = Convert.ToInt32(pixel.GetChannel(1) / 257);
             int blue = Convert.ToInt32(pixel.GetChannel(2) / 257);
 
-            foreach (Pixel pixelToCompare in image.GetReadOnlyPixels(pixel.X, pixel.Y, radius * 2 + 1, radius * 2 + 1))
+            foreach (Pixel pixelToCompare in image.GetReadOnlyPixels(pixel.X - radius, pixel.Y - radius, radius * 2 + 1, radius * 2 + 1))
             {
                 int redToCompare = Convert.ToInt32(pixelToCompare.GetChannel(0) / 257);
                 int greenToCompare = Convert.ToInt32(pixelToCompare.GetChannel(1) / 257);

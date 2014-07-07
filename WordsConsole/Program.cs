@@ -28,7 +28,7 @@ namespace WordsConsole
                 //WordsLookup dict = new WordsLookup();
                 //dict.Init();
 
-                //foreach (string file in Directory.GetFiles(@"C:\projects\WordsWithFriendsSolver\trunk\WordsLib\boards", "Screenshot_2014-07-04-20-54-10.png"))
+                //foreach (string file in Directory.GetFiles(@"C:\projects\WordsWithFriendsSolver.git\trunk\WordsLib\boards", "Screenshot_2014-07-07-14-52-34.png"))
                 //{
                 //    BoardOCR.HandOCR(file);
                 //}
