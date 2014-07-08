@@ -13,6 +13,7 @@ namespace WordsLib
 
         private string boardString = null;
         private BoardCell[][] cells;
+        private TransientBoard transientBoard;
 
         public Board()
         {
@@ -43,59 +44,73 @@ namespace WordsLib
             }
         }
 
-        public Board Clone()
+        public Board CloneTransient()
         {
             Board newBoard = new Board(true); // no init
 
-            newBoard.cells = new BoardCell[X_Cell_Count][];
-            for (int x = 0; x < X_Cell_Count; x++)
+            //newBoard.cells = new BoardCell[X_Cell_Count][];
+            //for (int x = 0; x < X_Cell_Count; x++)
+            //{
+            //    newBoard.cells[x] = new BoardCell[Y_Cell_Count];
+            //    for (int y = 0; y < Y_Cell_Count; y++)
+            //    {
+            //        newBoard.cells[x][y] = this.cells[x][y].Clone();
+            //    }
+            //}
+
+            // copy reference, do not clone the non-transient state
+            newBoard.cells = this.cells;
+
+            // clone transient
+            if (this.transientBoard != null)
             {
-                newBoard.cells[x] = new BoardCell[Y_Cell_Count];
-                for (int y = 0; y < Y_Cell_Count; y++)
-                {
-                    newBoard.cells[x][y] = this.cells[x][y].Clone();
-                }
+                newBoard.transientBoard = this.transientBoard.Clone();
             }
 
             return newBoard;
         }
 
-        public void ClearLetter(int x, int y)
-        {
-            this.GetCell(x, y).LetterTile = null;
-        }
-
         public void SetLetter(int x, int y, LetterTile letterTile)
-        {
-            BoardCell cell = this.GetCell(x, y);
-            cell.LetterTile = letterTile;
-            
+        {            
             // reset board string
             this.boardString = null;
+
+            if (letterTile.IsTransient)
+            {
+                if (this.transientBoard == null)
+                {
+                    this.transientBoard = new TransientBoard();
+                }
+                this.transientBoard.SetLetterTile(x, y, letterTile);
+            }
+            else
+            {
+                BoardCell cell = this.GetCell(x, y);
+                cell.LetterTile = letterTile;
+            }
         }
 
         public BoardCell GetCell(int x, int y)
         {
-            return this.cells[x][y];
-        }
-
-        public int LetterCount
-        {
-            get
+            LetterTile transientTile = null;
+            if (this.transientBoard != null)
             {
-                int count = 0;
-                for (int x = 0; x < X_Cell_Count; x++)
-                {
-                    for (int y = 0; y < Y_Cell_Count; y++)
-                    {
-                        if (this.cells[x][y].HasLetter)
-                        {
-                            count++;
-                        }
-                    }
-                }
+                transientTile = this.transientBoard.GetTileOrNull(x, y);
+            }
 
-                return count;
+            if (transientTile != null)
+            {
+                return new BoardCell()
+                {
+                    CellType = this.GetBoardCellType(x, y),
+                    X = x,
+                    Y = y,
+                    LetterTile = transientTile
+                };
+            }
+            else
+            {
+                return this.cells[x][y];
             }
         }
 
@@ -115,7 +130,7 @@ namespace WordsLib
                     for (int x = 0; x < X_Cell_Count; x++)
                     {
                         visual.Append("|");
-                        BoardCell cell = this.cells[x][y];
+                        BoardCell cell = this.GetCell(x, y);
                         if (cell.HasLetter)
                         {
                             visual.Append(cell.LetterTile.Letter);
@@ -147,7 +162,7 @@ namespace WordsLib
                     {
                         for (int x = 0; x < X_Cell_Count; x++)
                         {
-                            BoardCell cell = this.cells[x][y];
+                            BoardCell cell = this.GetCell(x, y);
                             char letter = cell.HasLetter ? cell.LetterTile.Letter : '#';
                             if (cell.LetterTile != null && cell.LetterTile.PointValue == 0)
                             {
@@ -176,7 +191,7 @@ namespace WordsLib
             {
                 for (int x = 0; x < X_Cell_Count; x++)
                 {
-                    BoardCell cell = this.cells[x][y];
+                    BoardCell cell = this.GetCell(x, y);
                     if (cell.IsTransient)
                     {
                         transientCells.Add(cell);

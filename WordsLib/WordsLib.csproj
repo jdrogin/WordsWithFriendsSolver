@@ -53,6 +53,7 @@
     <Compile Include="LetterOCR.cs" />
     <Compile Include="LetterOCRPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransientBoard.cs" />
     <Compile Include="TransientScore.cs" />
     <Compile Include="WordsLookup.cs" />
   </ItemGroup>

@@ -34,7 +34,8 @@ namespace WordsLib
 
             savedBoards = savedBoards.OrderByDescending(x => x.TransientScore.TotalScore).ToList();
 
-            System.Diagnostics.Debug.WriteLine("$$$$$$ Board solver completed in " + DateTime.Now.Subtract(start).TotalSeconds.ToString("0.000") + " seconds");
+            System.Diagnostics.Debug.WriteLine("$$$$$$ Board solver completed in " + DateTime.Now.Subtract(start).TotalSeconds.ToString("0.000") + " seconds"
+                + " / with iterations: " + this.iterationsPerSolve);
             return savedBoards;
         }
 
@@ -95,7 +96,7 @@ namespace WordsLib
                     int left = board.GetNextAvailableCellToLeft(startX, startY);
                     if (left != -1)
                     {
-                        Board cloneBoard = board.Clone();
+                        Board cloneBoard = board.CloneTransient();
                         cloneBoard.SetLetter(left, startY, letterInHand);
 
                         if (this.IsPlayedTileScorable(cloneBoard, left, startY))
@@ -119,7 +120,7 @@ namespace WordsLib
                         int right = board.GetNextAvailableCellToRight(startX, startY);
                         if (right != -1)
                         {
-                            Board cloneBoard = board.Clone();
+                            Board cloneBoard = board.CloneTransient();
                             cloneBoard.SetLetter(right, startY, letterInHand);
 
                             if (this.IsPlayedTileScorable(cloneBoard, right, startY))
@@ -147,7 +148,7 @@ namespace WordsLib
                     int top = board.GetNextAvailableCellAbove(startX, startY);
                     if (top != -1)
                     {
-                        Board cloneBoard = board.Clone();
+                        Board cloneBoard = board.CloneTransient();
                         cloneBoard.SetLetter(startX, top, letterInHand);
 
                         if (this.IsPlayedTileScorable(cloneBoard, startX, top))
@@ -171,7 +172,7 @@ namespace WordsLib
                         int bottom = board.GetNextAvailableCellBelow(startX, startY);
                         if (bottom != -1)
                         {
-                            Board cloneBoard = board.Clone();
+                            Board cloneBoard = board.CloneTransient();
                             cloneBoard.SetLetter(startX, bottom, letterInHand);
 
                             if (this.IsPlayedTileScorable(cloneBoard, startX, bottom))
