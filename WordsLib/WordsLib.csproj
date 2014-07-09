@@ -48,10 +48,10 @@
     <Compile Include="BoardSolver.cs" />
     <Compile Include="BoardCell.cs" />
     <Compile Include="BoardCellTypes.cs" />
-    <Compile Include="LetterTile.cs" />
     <Compile Include="LetterMapGenerator.cs" />
     <Compile Include="LetterOCR.cs" />
     <Compile Include="LetterOCRPoint.cs" />
+    <Compile Include="LetterInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransientBoard.cs" />
     <Compile Include="TransientScore.cs" />

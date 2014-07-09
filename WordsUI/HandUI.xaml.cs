@@ -21,12 +21,12 @@ namespace WordsUI
     /// </summary>
     public partial class HandUI : UserControl
     {
-        private List<LetterTile> LetterTiles;
+        private List<LetterInfo> LetterTiles;
 
         public HandUI()
         {
             InitializeComponent();
-            this.LetterTiles = new List<LetterTile>();
+            this.LetterTiles = new List<LetterInfo>();
         }
 
         public void SetLetters(string letters)
@@ -37,8 +37,8 @@ namespace WordsUI
             this.Letters.Children.Clear();
             foreach (char letter in letters)
             {
-                LetterTile letterTile = new LetterTile(letter, 0, true);
-                if (letter == LetterTile.BLANK)
+                LetterInfo letterTile = new LetterInfo(letter, 0, true);
+                if (letter == LetterInfo.BLANK)
                 {
                     letterTile.Letter = ' ';
                 }

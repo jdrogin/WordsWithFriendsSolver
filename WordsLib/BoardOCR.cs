@@ -7,7 +7,7 @@ namespace WordsLib
 {
     public static class BoardOCR
     {
-        public static LetterTile[] HandOCR(string screenImg)
+        public static LetterInfo[] HandOCR(string screenImg)
         {
             DateTime start = DateTime.Now;
 
@@ -37,7 +37,7 @@ namespace WordsLib
             int cellTopY = 1084;
             int cellBottomY = 1180;
             int cellMidY = cellTopY + ((cellBottomY - cellTopY) / 2);
-            List<LetterTile> letterTiles = new List<LetterTile>();
+            List<LetterInfo> letterTiles = new List<LetterInfo>();
  
             using (MagickImage image = new MagickImage(src))
             {
@@ -62,7 +62,7 @@ namespace WordsLib
                         // tile identified
                         int cellWidth = cellRightX - cellLeftX;
                         int cellHeight = cellBottomY - cellTopY;
-                        LetterTile letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                        LetterInfo letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
 
                         ////using (MagickImage image2 = new MagickImage(src))
                         ////{
@@ -88,7 +88,7 @@ namespace WordsLib
                         else
                         {
                             // this is a blank tile
-                            letterTiles.Add(new LetterTile(LetterTile.BLANK, 0, true));
+                            letterTiles.Add(new LetterInfo(LetterInfo.BLANK, 0, true));
 
                         }
 
@@ -124,7 +124,7 @@ namespace WordsLib
                         int cellStartX = gridStartX + x * cellWidth;
                         int cellStartY = gridStartY + y * cellHeight;
 
-                        LetterTile letterTile = GetLetterTileOrNull(image, cellStartX, cellStartY, cellWidth, cellHeight, false, LetterOCR.GetBoardCharacterMap);
+                        LetterInfo letterTile = GetLetterTileOrNull(image, cellStartX, cellStartY, cellWidth, cellHeight, false, LetterOCR.GetBoardCharacterMap);
                         if (letterTile != null)
                         {
                             board.SetLetter(x, y, letterTile);
@@ -137,13 +137,13 @@ namespace WordsLib
             return board;
         }
 
-        private static LetterTile GetLetterTileOrNull(MagickImage image, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
+        private static LetterInfo GetLetterTileOrNull(MagickImage image, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
         {
             // check in specific order so that for example: 'O' is identified before 'C' because 'C' may be a subset of 'O' pixels.
             foreach (char currChar in new char[] { 
                             'A', 'B', 'D', 'E', 'G', 'H', 'J', 'K', 'U', 'L', 'M', 'N', 'R', 'P', 'Q', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z', 'O', 'C', 'F', 'I' })
             {
-                LetterTile letterTile = GetLetterTileOrNull(image, currChar, cellStartX, cellStartY, cellWidth, cellHeight, isTransient, getCharacterMap);
+                LetterInfo letterTile = GetLetterTileOrNull(image, currChar, cellStartX, cellStartY, cellWidth, cellHeight, isTransient, getCharacterMap);
 
                 // match found
                 if (letterTile != null)
@@ -155,7 +155,7 @@ namespace WordsLib
             return null;
         }
 
-        private static LetterTile GetLetterTileOrNull(MagickImage image, char currChar, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
+        private static LetterInfo GetLetterTileOrNull(MagickImage image, char currChar, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
         {
             LetterOCRPoint[] points = getCharacterMap(currChar).Points;
             bool allPointsMatch = true;
@@ -188,7 +188,7 @@ namespace WordsLib
 
                 int letterPointValue = letterColorPixelCount >= 3 ? LetterOCR.GetLetterPointValue(currChar) : 0;
 
-                return new LetterTile(currChar, letterPointValue, isTransient);
+                return new LetterInfo(currChar, letterPointValue, isTransient);
             }
             else
             {

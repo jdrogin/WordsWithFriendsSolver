@@ -26,7 +26,7 @@ namespace WordsUI
             InitializeComponent();
         }
 
-        public TileCell(LetterTile letterTile)
+        public TileCell(LetterInfo letterTile)
         {
             InitializeComponent();
 

@@ -25,6 +25,28 @@ namespace WordsLib
             // no init
         }
 
+        public static BoardCell GetNewBoardCell(int x, int y)
+        {
+            return new BoardCell()
+            {
+                X = x,
+                Y = y,
+                CellType = GetBoardCellType(x, y)
+            };
+        }
+
+        public static BoardCell GetNewBoardCell(int x, int y, LetterInfo letterInfo)
+        {
+            BoardCell cell = new BoardCell()
+            {
+                X = x,
+                Y = y,
+                CellType = GetBoardCellType(x, y)
+            };
+            cell.SetLetter(letterInfo.Letter, letterInfo.PointValue, letterInfo.IsTransient);
+            return cell;
+        }
+
         public void InitBlankBoard()
         {
             this.cells = new BoardCell[X_Cell_Count][];
@@ -37,8 +59,7 @@ namespace WordsLib
                     {
                         X = x,
                         Y = y,
-                        LetterTile = null,
-                        CellType = this.GetBoardCellType(x, y)
+                        CellType = GetBoardCellType(x, y)
                     };
                 }
             }
@@ -70,48 +91,39 @@ namespace WordsLib
             return newBoard;
         }
 
-        public void SetLetter(int x, int y, LetterTile letterTile)
+        public void SetLetter(int x, int y, LetterInfo letterInfo)
         {            
             // reset board string
             this.boardString = null;
 
-            if (letterTile.IsTransient)
+            if (letterInfo.IsTransient)
             {
                 if (this.transientBoard == null)
                 {
                     this.transientBoard = new TransientBoard();
                 }
-                this.transientBoard.SetLetterTile(x, y, letterTile);
+                this.transientBoard.SetLetterTile(x, y, letterInfo);
             }
             else
             {
                 BoardCell cell = this.GetCell(x, y);
-                cell.LetterTile = letterTile;
+                cell.SetLetter(letterInfo.Letter, letterInfo.PointValue, letterInfo.IsTransient);
             }
         }
 
         public BoardCell GetCell(int x, int y)
         {
-            LetterTile transientTile = null;
             if (this.transientBoard != null)
             {
-                transientTile = this.transientBoard.GetTileOrNull(x, y);
+                BoardCell cell = this.transientBoard.GetBoardCellOrNull(x, y);
+                if (cell != null)
+                {
+                    return cell;
+                }
             }
 
-            if (transientTile != null)
-            {
-                return new BoardCell()
-                {
-                    CellType = this.GetBoardCellType(x, y),
-                    X = x,
-                    Y = y,
-                    LetterTile = transientTile
-                };
-            }
-            else
-            {
-                return this.cells[x][y];
-            }
+            // no trasient cell, return cell from this board
+            return this.cells[x][y];
         }
 
         public string BoardVisual
@@ -133,7 +145,7 @@ namespace WordsLib
                         BoardCell cell = this.GetCell(x, y);
                         if (cell.HasLetter)
                         {
-                            visual.Append(cell.LetterTile.Letter);
+                            visual.Append(cell.Letter);
                         }
                         else
                         {
@@ -163,8 +175,8 @@ namespace WordsLib
                         for (int x = 0; x < X_Cell_Count; x++)
                         {
                             BoardCell cell = this.GetCell(x, y);
-                            char letter = cell.HasLetter ? cell.LetterTile.Letter : '#';
-                            if (cell.LetterTile != null && cell.LetterTile.PointValue == 0)
+                            char letter = cell.HasLetter ? cell.Letter : '#';
+                            if (cell.HasLetter && cell.LetterPointValue == 0)
                             {
                                 char.ToLower(letter);
                             }
@@ -389,7 +401,7 @@ namespace WordsLib
             // record segment from top to bottom
             while (currY < Board.Y_Cell_Count && this.GetCell(startX, currY).HasLetter)
             {
-                segment += this.GetCell(startX, currY).LetterTile.Letter;
+                segment += this.GetCell(startX, currY).Letter;
                 currY++;
             }
 
@@ -410,7 +422,7 @@ namespace WordsLib
             // record segment from left to right
             while (currX < Board.Y_Cell_Count && this.GetCell(currX, startY).HasLetter)
             {
-                segment += this.GetCell(currX, startY).LetterTile.Letter;
+                segment += this.GetCell(currX, startY).Letter;
                 currX++;
             }
 
@@ -461,8 +473,8 @@ namespace WordsLib
             // calculate score from cells array
             foreach (BoardCell cell in cells)
             {
-                unitScore.Word += cell.LetterTile.Letter;
-                wordScore += cell.LetterTile.PointValue * this.GetLetterMultiplier(cell);
+                unitScore.Word += cell.Letter;
+                wordScore += cell.LetterPointValue * this.GetLetterMultiplier(cell);
                 wordMultiplier *= this.GetWordMultiplier(cell);
                 if (cell.IsTransient)
                 {
@@ -480,7 +492,7 @@ namespace WordsLib
             return unitScore;
         }
 
-        private BoardCellTypes GetBoardCellType(int rowIndex, int colIndex)
+        private static BoardCellTypes GetBoardCellType(int rowIndex, int colIndex)
         {
             if (rowIndex == 7 && colIndex == 7)
             {

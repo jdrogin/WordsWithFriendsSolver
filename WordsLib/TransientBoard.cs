@@ -12,8 +12,8 @@ namespace WordsLib
 
         private int X;
         private int Y;
-        private LetterTile SingleLetterTile;
-        private LetterTile[] LetterTiles;
+        private BoardCell SingleUsedCell;
+        private BoardCell[] UsedCells;
 
         public TransientBoard()
         {
@@ -21,14 +21,14 @@ namespace WordsLib
             this.Y = UNSET;
         }
 
-        public void SetLetterTile(int x, int y, LetterTile tile)
+        public void SetLetterTile(int x, int y, LetterInfo letterInfo)
         {
             if (this.X == UNSET && this.Y == UNSET)
             {
                 // first tile - use single letter variable as we don't know if this is a vertical or horizontal placement yet.
                 this.X = x;
                 this.Y = y;
-                this.SingleLetterTile = tile;
+                this.SingleUsedCell = Board.GetNewBoardCell(x, y, letterInfo);
             }
             else if (this.X != UNSET && this.Y != UNSET)
             {
@@ -36,25 +36,25 @@ namespace WordsLib
                 if (x == this.X && this.Y == y)
                 {
                     // update to existing single tile
-                    this.SingleLetterTile = tile;
+                    this.SingleUsedCell = Board.GetNewBoardCell(x, y, letterInfo);
                 }
                 else if (x == this.X)
                 {
                     // same x - second tile is a vertical placement.  Move single tile to array.
-                    this.LetterTiles = new LetterTile[Board.Y_Cell_Count];
-                    this.LetterTiles[this.Y] = this.SingleLetterTile;
-                    this.SingleLetterTile = null;
+                    this.UsedCells = new BoardCell[Board.Y_Cell_Count];
+                    this.UsedCells[this.Y] = this.SingleUsedCell;
+                    this.SingleUsedCell = null;
                     this.Y = UNSET;
-                    this.LetterTiles[y] = tile;
+                    this.UsedCells[y] = Board.GetNewBoardCell(x, y, letterInfo);
                 }
                 else if (y == this.Y)
                 {
                     // same y - second tile is a horizontal placement.  Move single tile to array.
-                    this.LetterTiles = new LetterTile[Board.X_Cell_Count];
-                    this.LetterTiles[this.X] = this.SingleLetterTile;
-                    this.SingleLetterTile = null;
+                    this.UsedCells = new BoardCell[Board.X_Cell_Count];
+                    this.UsedCells[this.X] = this.SingleUsedCell;
+                    this.SingleUsedCell = null;
                     this.X = UNSET;
-                    this.LetterTiles[x] = tile;
+                    this.UsedCells[x] = Board.GetNewBoardCell(x, y, letterInfo);
                 }
                 else
                 {
@@ -64,12 +64,12 @@ namespace WordsLib
             else if (this.X == x && this.Y == UNSET)
             {
                 // adding along existing vertical
-                this.LetterTiles[y] = tile;
+                this.UsedCells[y] = Board.GetNewBoardCell(x, y, letterInfo);
             }
             else if (this.Y == y && this.X == UNSET)
             {
                 // adding along existing horizontal
-                this.LetterTiles[x] = tile;
+                this.UsedCells[x] = Board.GetNewBoardCell(x, y, letterInfo);
             }
             else
             {
@@ -77,19 +77,19 @@ namespace WordsLib
             }
         }
 
-        public LetterTile GetTileOrNull(int x, int y)
+        public BoardCell GetBoardCellOrNull(int x, int y)
         {
             if (x == this.X && y == this.Y)
             {
-                return this.SingleLetterTile;
+                return this.SingleUsedCell;
             }
-            if (this.LetterTiles != null && x == this.X)
+            if (this.UsedCells != null && x == this.X)
             {
-                return this.LetterTiles[y];
+                return this.UsedCells[y];
             }
-            else if (this.LetterTiles != null && y == this.Y)
+            else if (this.UsedCells != null && y == this.Y)
             {
-                return this.LetterTiles[x];
+                return this.UsedCells[x];
             }
             else
             {
@@ -102,13 +102,13 @@ namespace WordsLib
             TransientBoard newBoard = new TransientBoard();
             newBoard.X = this.X;
             newBoard.Y = this.Y;
-            newBoard.SingleLetterTile = this.SingleLetterTile;
-            if (this.LetterTiles != null)
+            newBoard.SingleUsedCell = this.SingleUsedCell;
+            if (this.UsedCells != null)
             {
-                newBoard.LetterTiles = new LetterTile[this.LetterTiles.Length];
-                for (int i = 0; i < this.LetterTiles.Length; i++)
+                newBoard.UsedCells = new BoardCell[this.UsedCells.Length];
+                for (int i = 0; i < this.UsedCells.Length; i++)
                 {
-                    newBoard.LetterTiles[i] = this.LetterTiles[i];
+                    newBoard.UsedCells[i] = this.UsedCells[i];
                 }
             }
 

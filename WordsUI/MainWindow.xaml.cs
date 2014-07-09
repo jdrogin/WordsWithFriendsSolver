@@ -15,6 +15,7 @@ namespace WordsUI
         private List<Board> solvedBoards;
         private int solvedBoardSelectedIndex = 0;
         private int iterationsPerSolve = 0;
+        private TimeSpan timePerSolve;
 
         public MainWindow()
         {
@@ -33,13 +34,14 @@ namespace WordsUI
             this.BoardImage.Source = new BitmapImage(new Uri(boardImgSource));
             
             Board board = BoardOCR.OCR(boardImgSource);
-            LetterTile[] hand = BoardOCR.HandOCR(boardImgSource);
+            LetterInfo[] hand = BoardOCR.HandOCR(boardImgSource);
 
             this.boardSolver = new BoardSolver(this.wordLookup);
             this.HandLetters.SetLetters(new string(hand.Select(x => x.Letter).ToArray()));
 
             this.solvedBoards = this.boardSolver.Solve(board, hand);
             this.iterationsPerSolve = this.boardSolver.IterationsPerSolve;
+            this.timePerSolve = this.boardSolver.TimePerSolve;
             this.solvedBoardSelectedIndex = 0;
 
             this.SetSolvedBoardsList(this.solvedBoards);
@@ -57,6 +59,7 @@ namespace WordsUI
             Board board = this.solvedBoards[this.solvedBoardSelectedIndex];
             this.StatusText.Text = string.Format("Showing: {0}/{1}, score: {2}", this.solvedBoardSelectedIndex + 1, this.solvedBoards.Count, board.TransientScore.TotalScore);
             this.StatusText.Text += string.Format("{0}Iterations: {1}", Environment.NewLine, string.Format("{0:n0}", this.iterationsPerSolve));
+            this.StatusText.Text += string.Format("{0}Solve Time: {1} seconds", Environment.NewLine, this.timePerSolve.TotalSeconds.ToString("0.000"));
 
             this.BoardGrid.Children.Clear();
 
@@ -77,7 +80,7 @@ namespace WordsUI
                     // add letter if exists
                     if (boardCell.HasLetter)
                     {
-                        TileCell tile = new TileCell(boardCell.LetterTile);
+                        TileCell tile = new TileCell(new LetterInfo(boardCell.Letter, boardCell.LetterPointValue, boardCell.LetterIsTransient));
                         tile.X = boardCell.X;
                         tile.Y = boardCell.Y;
 

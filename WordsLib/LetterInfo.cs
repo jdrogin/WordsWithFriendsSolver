@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace WordsLib
 {
-    public class LetterTile
+    public class LetterInfo
     {
         public const char BLANK = '?';
         public char Letter { get; set; }
         public int PointValue { get; set; }
         public bool IsTransient { get; set; }
 
-        public LetterTile(char letter, int pointValue, bool isTransient)
+        public LetterInfo(char letter, int pointValue, bool isTransient)
         {
             this.Letter = letter;
             this.PointValue = pointValue;
@@ -23,11 +23,6 @@ namespace WordsLib
         public override string ToString()
         {
             return string.Format("{0}/{1}", this.Letter, this.PointValue);
-        }
-
-        public LetterTile Clone()
-        {
-            return new LetterTile(this.Letter, this.PointValue, this.IsTransient);
         }
     }
 }

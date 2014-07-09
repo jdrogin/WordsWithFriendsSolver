@@ -9,6 +9,7 @@ namespace WordsLib
     public class BoardSolver
     {
         private int iterationsPerSolve = 0;
+        private TimeSpan timePerSolve;
         private WordsLookup lookup;
 
         public BoardSolver(WordsLookup lookup)
@@ -16,7 +17,7 @@ namespace WordsLib
             this.lookup = lookup;
         }
 
-        public List<Board> Solve(Board board, LetterTile[] hand)
+        public List<Board> Solve(Board board, LetterInfo[] hand)
         {
             DateTime start = DateTime.Now;
             this.iterationsPerSolve = 0;
@@ -25,7 +26,7 @@ namespace WordsLib
             List<Board> savedBoards = new List<Board>();
             foreach (BoardCell startCell in startCells)
             {
-                foreach (LetterTile[] handWithoutBlanks in this.ExpandBlanks(hand))
+                foreach (LetterInfo[] handWithoutBlanks in this.ExpandBlanks(hand))
                 {
                     this.TryHandRecursive(savedBoards, board, handWithoutBlanks, startCell.X, startCell.Y, PlacementOrientation.Horizontal);
                     this.TryHandRecursive(savedBoards, board, handWithoutBlanks, startCell.X, startCell.Y, PlacementOrientation.Vertical);
@@ -33,9 +34,11 @@ namespace WordsLib
             }
 
             savedBoards = savedBoards.OrderByDescending(x => x.TransientScore.TotalScore).ToList();
+            this.timePerSolve = DateTime.Now.Subtract(start);
 
-            System.Diagnostics.Debug.WriteLine("$$$$$$ Board solver completed in " + DateTime.Now.Subtract(start).TotalSeconds.ToString("0.000") + " seconds"
+            System.Diagnostics.Debug.WriteLine("$$$$$$ Board solver completed in " + this.timePerSolve.TotalSeconds.ToString("0.000") + " seconds"
                 + " / with iterations: " + this.iterationsPerSolve);
+
             return savedBoards;
         }
 
@@ -47,30 +50,38 @@ namespace WordsLib
             }
         }
 
-        private List<LetterTile[]> ExpandBlanks(LetterTile[] hand)
+        public TimeSpan TimePerSolve
         {
-            if (!hand.Any(x => x.Letter == LetterTile.BLANK))
+            get
+            {
+                return this.timePerSolve;
+            }
+        }
+
+        private List<LetterInfo[]> ExpandBlanks(LetterInfo[] hand)
+        {
+            if (!hand.Any(x => x.Letter == LetterInfo.BLANK))
             {
                 // no blanks
-                return new List<LetterTile[]>() { hand };
+                return new List<LetterInfo[]>() { hand };
             }
 
-            List<LetterTile[]> allHands = new List<LetterTile[]>();
-            int blankCount = hand.Count(x => x.Letter == LetterTile.BLANK);
-            LetterTile[] handWithoutBlanks = hand.Where(x => x.Letter != LetterTile.BLANK).ToArray();
+            List<LetterInfo[]> allHands = new List<LetterInfo[]>();
+            int blankCount = hand.Count(x => x.Letter == LetterInfo.BLANK);
+            LetterInfo[] handWithoutBlanks = hand.Where(x => x.Letter != LetterInfo.BLANK).ToArray();
 
             // initialize all hands with the letters in the hand without the blanks.
-            allHands.Add(hand.Where(x => x.Letter != LetterTile.BLANK).ToArray());
+            allHands.Add(hand.Where(x => x.Letter != LetterInfo.BLANK).ToArray());
 
             for (int blankIndex = 0; blankIndex < blankCount; blankIndex++)
             {
-                foreach (LetterTile[] handToAddTo in allHands.ToList())
+                foreach (LetterInfo[] handToAddTo in allHands.ToList())
                 {
                     allHands.Remove(handToAddTo);
                     foreach (char c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
                     {
-                        List<LetterTile> newHand = handToAddTo.ToList();
-                        newHand.Add(new LetterTile(c, 0, true));
+                        List<LetterInfo> newHand = handToAddTo.ToList();
+                        newHand.Add(new LetterInfo(c, 0, true));
                         allHands.Add(newHand.ToArray());
                     }
                 }
@@ -79,7 +90,7 @@ namespace WordsLib
             return allHands;
         }
 
-        private void TryHandRecursive(List<Board> savedBoards, Board board, LetterTile[] hand, int startX, int startY, PlacementOrientation placementOrientation)
+        private void TryHandRecursive(List<Board> savedBoards, Board board, LetterInfo[] hand, int startX, int startY, PlacementOrientation placementOrientation)
         {
             if (hand.Length == 0)
             {
@@ -90,7 +101,7 @@ namespace WordsLib
 
             if (placementOrientation == PlacementOrientation.Horizontal)
             {
-                foreach (LetterTile letterInHand in hand)
+                foreach (LetterInfo letterInHand in hand)
                 {
                     // go left
                     int left = board.GetNextAvailableCellToLeft(startX, startY);
@@ -108,7 +119,7 @@ namespace WordsLib
                         if (this.IsPlayedTileValid(cloneBoard, left, startY, placementOrientation))
                         {
                             // continue recursion
-                            LetterTile[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
+                            LetterInfo[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
                             this.TryHandRecursive(savedBoards, cloneBoard, remainingHand, startX, startY, placementOrientation);
                         }
                     }
@@ -132,7 +143,7 @@ namespace WordsLib
                             if (this.IsPlayedTileValid(cloneBoard, right, startY, placementOrientation))
                             {
                                 // continue recursion
-                                LetterTile[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
+                                LetterInfo[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
                                 this.TryHandRecursive(savedBoards, cloneBoard, remainingHand, startX, startY, placementOrientation);
                             }
                         }
@@ -142,7 +153,7 @@ namespace WordsLib
 
             if (placementOrientation == PlacementOrientation.Vertical)
             {
-                foreach (LetterTile letterInHand in hand)
+                foreach (LetterInfo letterInHand in hand)
                 {
                     // go up
                     int top = board.GetNextAvailableCellAbove(startX, startY);
@@ -160,7 +171,7 @@ namespace WordsLib
                         if (this.IsPlayedTileValid(cloneBoard, startX, top, placementOrientation))
                         {
                             // continue recursion
-                            LetterTile[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
+                            LetterInfo[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
                             this.TryHandRecursive(savedBoards, cloneBoard, remainingHand, startX, startY, placementOrientation);
                         }
                     }
@@ -184,7 +195,7 @@ namespace WordsLib
                             if (this.IsPlayedTileValid(cloneBoard, startX, bottom, placementOrientation))
                             {
                                 // continue recursion
-                                LetterTile[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
+                                LetterInfo[] remainingHand = this.GetNewHandWithoutTile(hand, letterInHand);
                                 this.TryHandRecursive(savedBoards, cloneBoard, remainingHand, startX, startY, placementOrientation);
                             }
                         }
@@ -251,9 +262,9 @@ namespace WordsLib
             }
         }
 
-        private LetterTile[] GetNewHandWithoutTile(LetterTile[] hand, LetterTile tileToRemove)
+        private LetterInfo[] GetNewHandWithoutTile(LetterInfo[] hand, LetterInfo tileToRemove)
         {
-            LetterTile[] newHand = new LetterTile[hand.Length - 1];
+            LetterInfo[] newHand = new LetterInfo[hand.Length - 1];
 
             int newHandIndex = 0;
             for (int i = 0; i < hand.Length; i++)
