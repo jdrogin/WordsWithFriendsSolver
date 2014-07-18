@@ -15,7 +15,7 @@ namespace WordsLib
         public void Init()
         {
             DateTime start = DateTime.Now;
-            this.allWords = File.ReadAllLines("dictionary/words.txt");
+            this.allWords = File.ReadAllLines(Path.Combine(this.AssemblyDirectory, "dictionary/words.txt"));
 
             wordRootMap = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
 
@@ -69,6 +69,17 @@ namespace WordsLib
                 string right = segment.Substring(1, segment.Length - 1);
                 this.AddWordSegmentRecursive(left, false);
                 this.AddWordSegmentRecursive(right, false);
+            }
+        }
+        
+        private string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
             }
         }
     }

@@ -1,0 +1,71 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .hand {
+        font-family:'Courier New';
+        font-size:large;
+    }
+    .cell {
+        width:22px;
+        height:22px;
+        float:left;
+        border:1px solid black;
+        text-align:center;
+        font-family:'Courier New'
+    }
+    .letter {
+        background-color: lemonchiffon;
+    }
+    .transient {
+        color: black;
+        font-weight: bold;
+        background-color: lightsalmon;
+    }
+</style>
+
+<h4>Solve Count: @ViewBag.solvedBoards.Count.ToString("#,###")</h4>
+<h4>Solve Time: @ViewBag.solveTime.TotalSeconds.ToString("0.000") seconds</h4>
+<h4>Iterations: @ViewBag.iterations.ToString("#,###")</h4>
+<br />
+
+<div class="hand">
+    Hand:
+    @foreach (WordsLib.LetterInfo letter in @ViewBag.hand)
+    {
+        <span>@letter.Letter<sup>@letter.PointValue</sup></span>
+    }
+</div>
+<br />
+
+@for (int solvedBoardIndex = 0; solvedBoardIndex < @ViewBag.solvedBoards.Count && solvedBoardIndex < 75; solvedBoardIndex++)
+{
+    WordsLib.Board solvedBoard = @ViewBag.solvedBoards[solvedBoardIndex];
+    <div>board: @(solvedBoardIndex + 1), score: @solvedBoard.TransientScore.TotalScore</div>
+
+    for (int y = 0; y < 15; y++)
+    {
+        <div style="clear:both;width:460px">
+        @for (int x = 0; x < 15; x++)
+        {
+            WordsLib.BoardCell cell = solvedBoard.GetCell(x, y);
+            char val = cell.HasLetter ? cell.Letter : ' ';
+            string classes = "cell";
+            if (cell.HasLetter)
+            {
+                classes += " letter";
+            }
+            if (cell.IsTransient)
+            {
+                classes += " transient";
+            }
+
+            <div class="@classes">@val</div>
+        }
+        </div>
+    }
+
+    <div style="clear:both"></div>
+    <br />
+    <br />
+}
