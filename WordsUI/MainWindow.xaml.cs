@@ -39,6 +39,8 @@ namespace WordsUI
             this.boardSolver = new BoardSolver(this.wordLookup);
             this.HandLetters.SetLetters(new string(hand.Select(x => x.Letter).ToArray()));
 
+            IReadOnlyDictionary<char, int> remainingLetters = LetterSet.GetRemaining(board, hand);
+
             this.solvedBoards = this.boardSolver.Solve(board, hand);
             this.iterationsPerSolve = this.boardSolver.IterationsPerSolve;
             this.timePerSolve = this.boardSolver.TimePerSolve;
