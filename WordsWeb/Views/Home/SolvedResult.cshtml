@@ -6,6 +6,14 @@
         font-family:'Courier New';
         font-size:large;
     }
+    .remaining {
+        font-family:'Courier New';
+        font-weight:bold;
+    }
+    .noneremaining {
+        color: lightgray;
+        font-weight:normal;
+    }
     .cell {
         width:22px;
         height:22px;
@@ -24,6 +32,21 @@
     }
 </style>
 
+<script type="text/javascript">
+    function toggleLettersRemaining(buttonObj, divId) {
+        if (document.getElementById(divId).style.display != 'block')
+        {
+            buttonObj.innerText = "Hide";
+            document.getElementById(divId).style.display = 'block';
+        }
+        else
+        {
+            buttonObj.innerText = "Show";
+            document.getElementById(divId).style.display = 'none';
+        }
+    }
+</script>
+
 <h4>Solve Count: @ViewBag.solvedBoards.Count.ToString("#,###")</h4>
 <h4>Solve Time: @ViewBag.solveTime.TotalSeconds.ToString("0.000") seconds</h4>
 <h4>Iterations: @ViewBag.iterations.ToString("#,###")</h4>
@@ -38,10 +61,23 @@
 </div>
 <br />
 
+<div class="remaining">
+    <div style="clear:both"></div>
+    Remaining Letters: <button onclick="toggleLettersRemaining(this, 'remainingLettersDiv')">Show</button>
+    <div id="remainingLettersDiv" style="display:none">
+        @foreach (char letter in @ViewBag.remainingLetters.Keys)
+        {
+            int count = @ViewBag.remainingLetters[letter];
+            <div @if (count == 0) { <text> class="noneremaining" </text> }>@letter - @count</div>
+        }
+    </div>
+</div>
+<br />
+
 @for (int solvedBoardIndex = 0; solvedBoardIndex < @ViewBag.solvedBoards.Count && solvedBoardIndex < 75; solvedBoardIndex++)
 {
     WordsLib.Board solvedBoard = @ViewBag.solvedBoards[solvedBoardIndex];
-    <div>board: @(solvedBoardIndex + 1), score: @solvedBoard.TransientScore.TotalScore</div>
+    <div>board: @(solvedBoardIndex + 1), score: @solvedBoard.TransientScore.TotalScore @if (solvedBoard.TransientScore.IncludesBonus) { <text>+</text>}</div>
 
     for (int y = 0; y < 15; y++)
     {

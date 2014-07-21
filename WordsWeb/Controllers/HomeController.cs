@@ -41,6 +41,8 @@ namespace WordsWeb.Controllers
                 ViewBag.hand = hand;
                 ViewBag.board = board;
 
+                ViewBag.remainingLetters = LetterSet.GetRemaining(board, hand);
+
                 BoardSolver solver = new BoardSolver(this.wordsLookup);
                 List<Board> solvedBoards = solver.Solve(board, hand);
 
