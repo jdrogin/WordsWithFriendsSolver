@@ -47,7 +47,15 @@ namespace WordsUI
             this.solvedBoardSelectedIndex = 0;
 
             this.SetSolvedBoardsList(this.solvedBoards);
-            this.SetSelectedSolvedBoard();
+            
+            if (this.solvedBoards != null && this.solvedBoards.Count > 0)
+            {
+                this.SetSelectedSolvedBoard();
+            }
+            else
+            {
+                this.DrawBoard(board);
+            }
         }
 
         void SetSelectedSolvedBoard()
@@ -63,6 +71,23 @@ namespace WordsUI
             this.StatusText.Text += string.Format("{0}Iterations: {1}", Environment.NewLine, string.Format("{0:n0}", this.iterationsPerSolve));
             this.StatusText.Text += string.Format("{0}Solve Time: {1} seconds", Environment.NewLine, this.timePerSolve.TotalSeconds.ToString("0.000"));
 
+            this.DrawBoard(board);
+        }
+
+        void SetSolvedBoardsList(List<Board> boards)
+        {
+            this.SolvedList.Items.Clear();
+            for (int index = 0; index < boards.Count; index++)
+            {
+                TransientScore score = boards[index].TransientScore;
+                string bonusIndicator = score.IncludesBonus ? "+" : string.Empty;
+                string text = string.Format("({0}{1}) - {2}/{3}", score.TotalScore, bonusIndicator, score.BestWord.Word, score.BestWord.Score);
+                this.SolvedList.Items.Add(new TextBlock() { Text = text, Tag = index });
+            }
+        }
+
+        private void DrawBoard(Board board)
+        {
             this.BoardGrid.Children.Clear();
 
             for (int y = 0; y < Board.Y_Cell_Count; y++)
@@ -91,18 +116,6 @@ namespace WordsUI
                         this.BoardGrid.Children.Add(tile);
                     }
                 }
-            }
-        }
-
-        void SetSolvedBoardsList(List<Board> boards)
-        {
-            this.SolvedList.Items.Clear();
-            for (int index = 0; index < boards.Count; index++)
-            {
-                TransientScore score = boards[index].TransientScore;
-                string bonusIndicator = score.IncludesBonus ? "+" : string.Empty;
-                string text = string.Format("({0}{1}) - {2}/{3}", score.TotalScore, bonusIndicator, score.BestWord.Word, score.BestWord.Score);
-                this.SolvedList.Items.Add(new TextBlock() { Text = text, Tag = index });
             }
         }
 

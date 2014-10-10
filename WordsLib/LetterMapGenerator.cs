@@ -14,7 +14,7 @@ namespace WordsLib
         {
             List<LetterOCR> letterMaps = new List<LetterOCR>();
 
-            foreach (string file in Directory.GetFiles(@"letters/board"))
+            foreach (string file in Directory.GetFiles(@"letters/board/V2"))
             {
                 Console.WriteLine();
                 string letter = Path.GetFileNameWithoutExtension(file);
@@ -29,33 +29,16 @@ namespace WordsLib
                     {
                         if (IsLetterPixel(pixel) && PixelIsSurroundedBySameColor(image, pixel, 0.10))
                         {
-                            if ((pixel.X > 28 && pixel.Y > 28)
-                                //&& !(pixel.X == 29 && pixel.Y == 34)
-                                //&& !(pixel.X == 30 && pixel.Y == 33)
-                                //&& !(pixel.X == 31 && pixel.Y == 32)
-                                //&& !(pixel.X == 32 && pixel.Y == 31)
-                                //&& !(pixel.X == 33 && pixel.Y == 30)
-                                //&& !(pixel.X == 34 && pixel.Y == 29)
+                            if ((pixel.X > 27 && pixel.Y > 28)
 
-                                && !(pixel.X == 29 && pixel.Y == 33)
-                                && !(pixel.X == 29 && pixel.Y == 32)
-                                && !(pixel.X == 29 && pixel.Y == 31)
-                                && !(pixel.X == 29 && pixel.Y == 30)
+                                && !(pixel.X == 28 && pixel.Y == 29)
                                 && !(pixel.X == 29 && pixel.Y == 29)
-
-                                && !(pixel.X == 30 && pixel.Y == 32)
-                                && !(pixel.X == 30 && pixel.Y == 31)
-                                && !(pixel.X == 30 && pixel.Y == 30)
                                 && !(pixel.X == 30 && pixel.Y == 29)
 
-                                && !(pixel.X == 31 && pixel.Y == 31)
-                                && !(pixel.X == 31 && pixel.Y == 30)
-                                && !(pixel.X == 31 && pixel.Y == 29)
+                                && !(pixel.X == 28 && pixel.Y == 30)
+                                && !(pixel.X == 29 && pixel.Y == 30)
 
-                                && !(pixel.X == 32 && pixel.Y == 30)
-                                && !(pixel.X == 32 && pixel.Y == 29)
-
-                                && !(pixel.X == 33 && pixel.Y == 29))
+                                && !(pixel.X == 28 && pixel.Y == 31))
                             {
                                 // lower right corner may contain word score which is not part of the letter map
                                 continue;
@@ -307,7 +290,7 @@ namespace WordsLib
             //int alpha = Convert.ToInt32(pixel.GetChannel(3) / 257);
 
             bool isWhite = (red == 255 && green == 255 && blue == 255);
-            bool isLetterColor = (red == 78 && green == 28 && blue == 0);
+            bool isLetterColor = (red == 76 && green == 25 && blue == 0);
             bool isMatch = isWhite || isLetterColor;
 
             return isMatch;

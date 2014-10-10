@@ -111,7 +111,7 @@ namespace WordsLib
             Console.WriteLine(Path.GetFileName(src));
 
             int gridStartX = 0;
-            int gridStartY = 248;
+            int gridStartY = 327;//248;
             int cellWidth = 48;
             int cellHeight = 48;
 
@@ -123,6 +123,13 @@ namespace WordsLib
                     {
                         int cellStartX = gridStartX + x * cellWidth;
                         int cellStartY = gridStartY + y * cellHeight;
+
+                        ////// save tile as image for testing slice coordinates
+                        ////using (MagickImage imageTile = new MagickImage(src))
+                        ////{
+                        ////    imageTile.Crop(new MagickGeometry(cellStartX, cellStartY, cellWidth, cellHeight));
+                        ////    imageTile.Write("C:\\temp\\" + cellStartY.ToString("0000") + "x" + cellStartX.ToString("0000") + ".png");
+                        ////}
 
                         LetterInfo letterTile = GetLetterTileOrNull(image, cellStartX, cellStartY, cellWidth, cellHeight, false, LetterOCR.GetBoardCharacterMap);
                         if (letterTile != null)
