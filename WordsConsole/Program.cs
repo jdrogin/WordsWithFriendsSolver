@@ -22,8 +22,8 @@ namespace WordsConsole
                 Console.WriteLine(LINE_OF_STARS + Environment.NewLine + Environment.NewLine);
 
                 // run
-                //LetterMapGenerator.CreateBoardLettersMap();
-                LetterMapGenerator.CreateHandLettersMap();
+                LetterMapGenerator.CreateBoardLettersMap();
+                //LetterMapGenerator.CreateHandLettersMap();
 
                 //foreach (string boardImg in Directory.GetFiles("boards/V2"))
                 //{

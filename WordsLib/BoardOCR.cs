@@ -42,6 +42,7 @@ namespace WordsLib
             int cellWidth = cellHeight; // square
             List<LetterInfo> letterTiles = new List<LetterInfo>();
 
+            // x coordinates of the left edge each of the 7 tile slots.
             List<int> leftXs = new List<int>() { 2, 105, 208, 311, 414, 517, 619 };
  
             using (MagickImage image = new MagickImage(src))
@@ -53,14 +54,6 @@ namespace WordsLib
                 {
                     Pixel pix = image.GetReadOnlyPixels()[x, cellMidY];
                     Pixel pixNext = image.GetReadOnlyPixels()[x + 1, cellMidY];
-                    ////if (isBackgroundPixel(pix) && isTileEdgePixel(pixNext))
-                    ////{
-                    ////    cellLeftX = pix.X;
-                    ////}
-                    ////else if (isTileEdgePixel(pix) && isBackgroundPixel(pixNext))
-                    ////{
-                    ////    cellRightX = pixNext.X;
-                    ////}
 
                     if (leftXs.Contains(pix.X))
                     {
@@ -70,35 +63,38 @@ namespace WordsLib
 
                     if (cellLeftX < cellRightX)
                     {
-                        // tile identified
-                        LetterInfo letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
-
-                        ////// debug - save sliced tile
-                        ////using (MagickImage image2 = new MagickImage(src))
-                        ////{
-                        ////    image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
-                        ////    image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
-                        ////}
-
-                        if (letterTile == null)
+                        Pixel backgroundTestPixel = image.GetReadOnlyPixels()[cellLeftX + 3, cellMidY];
+                        if (isTileEdgePixel(backgroundTestPixel))
                         {
-                            // the hand letter are not always consistent
-                            // try shifting OCR right and left before concluding this is a blank tile
-                            letterTile = GetLetterTileOrNull(image, cellLeftX + 1, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                            ////// debug - save sliced tile
+                            ////using (MagickImage image2 = new MagickImage(src))
+                            ////{
+                            ////    image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
+                            ////    image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
+                            ////}
+
+                            LetterInfo letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+
                             if (letterTile == null)
                             {
-                                letterTile = GetLetterTileOrNull(image, cellLeftX - 1, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                                // the hand letter are not always consistent
+                                // try shifting OCR right and left before concluding this is a blank tile
+                                letterTile = GetLetterTileOrNull(image, cellLeftX + 1, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                                if (letterTile == null)
+                                {
+                                    letterTile = GetLetterTileOrNull(image, cellLeftX - 1, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
+                                }
                             }
-                        }
 
-                        if (letterTile != null)
-                        {
-                            letterTiles.Add(letterTile);
-                        }
-                        else
-                        {
-                            // this is a blank tile
-                            letterTiles.Add(new LetterInfo(LetterInfo.BLANK, 0, true));
+                            if (letterTile != null)
+                            {
+                                letterTiles.Add(letterTile);
+                            }
+                            else
+                            {
+                                // this is a blank tile
+                                letterTiles.Add(new LetterInfo(LetterInfo.BLANK, 0, true));
+                            }
                         }
 
                         // reset markers

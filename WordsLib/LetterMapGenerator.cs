@@ -34,11 +34,29 @@ namespace WordsLib
                                 && !(pixel.X == 28 && pixel.Y == 29)
                                 && !(pixel.X == 29 && pixel.Y == 29)
                                 && !(pixel.X == 30 && pixel.Y == 29)
+                                && !(pixel.X == 31 && pixel.Y == 29)
+                                && !(pixel.X == 33 && pixel.Y == 29)
+                                && !(pixel.X == 34 && pixel.Y == 29)
 
                                 && !(pixel.X == 28 && pixel.Y == 30)
                                 && !(pixel.X == 29 && pixel.Y == 30)
+                                && !(pixel.X == 30 && pixel.Y == 30)
+                                && !(pixel.X == 31 && pixel.Y == 30)
+                                && !(pixel.X == 32 && pixel.Y == 30)
 
-                                && !(pixel.X == 28 && pixel.Y == 31))
+                                && !(pixel.X == 28 && pixel.Y == 31)
+                                && !(pixel.X == 29 && pixel.Y == 31)
+                                && !(pixel.X == 30 && pixel.Y == 31)
+                                && !(pixel.X == 31 && pixel.Y == 31)
+
+                                && !(pixel.X == 28 && pixel.Y == 32)
+                                && !(pixel.X == 29 && pixel.Y == 32)
+                                && !(pixel.X == 30 && pixel.Y == 32)
+
+                                && !(pixel.X == 28 && pixel.Y == 33)
+                                && !(pixel.X == 29 && pixel.Y == 33)
+
+                                && !(pixel.X == 28 && pixel.Y == 34))
                             {
                                 // lower right corner may contain word score which is not part of the letter map
                                 continue;
