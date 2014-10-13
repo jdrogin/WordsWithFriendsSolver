@@ -127,6 +127,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\WordsWeb - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\WordsWeb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\WordsWeb.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
