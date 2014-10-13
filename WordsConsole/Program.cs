@@ -23,12 +23,12 @@ namespace WordsConsole
 
                 // run
                 //LetterMapGenerator.CreateBoardLettersMap();
-                //LetterMapGenerator.CreateHandLettersMap();
+                LetterMapGenerator.CreateHandLettersMap();
 
-                foreach (string boardImg in Directory.GetFiles("boards/V2"))
-                {
-                    BoardOCR.HandOCR(boardImg);
-                }
+                //foreach (string boardImg in Directory.GetFiles("boards/V2"))
+                //{
+                //    BoardOCR.HandOCR(boardImg);
+                //}
 
                 //WordsLookup dict = new WordsLookup();
                 //dict.Init();

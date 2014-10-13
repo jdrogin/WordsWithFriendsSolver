@@ -73,11 +73,12 @@ namespace WordsLib
                         // tile identified
                         LetterInfo letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
 
-                        using (MagickImage image2 = new MagickImage(src))
-                        {
-                            image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
-                            image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
-                        }
+                        ////// debug - save sliced tile
+                        ////using (MagickImage image2 = new MagickImage(src))
+                        ////{
+                        ////    image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
+                        ////    image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
+                        ////}
 
                         if (letterTile == null)
                         {
@@ -98,7 +99,6 @@ namespace WordsLib
                         {
                             // this is a blank tile
                             letterTiles.Add(new LetterInfo(LetterInfo.BLANK, 0, true));
-
                         }
 
                         // reset markers

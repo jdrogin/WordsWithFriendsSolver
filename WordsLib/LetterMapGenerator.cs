@@ -74,7 +74,7 @@ namespace WordsLib
         {
             List<LetterOCR> letterMaps = new List<LetterOCR>();
 
-            foreach (string file in Directory.GetFiles(@"letters/hand"))
+            foreach (string file in Directory.GetFiles(@"letters/hand/V2"))
             {
                 Console.WriteLine();
                 string letter = Path.GetFileNameWithoutExtension(file);
