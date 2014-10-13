@@ -11,33 +11,38 @@ namespace WordsLib
         {
             DateTime start = DateTime.Now;
 
-            Func<Pixel, bool> isBluePixel = (Pixel pixel) =>
+            Func<Pixel, bool> isBackgroundPixel = (Pixel pixel) =>
             {
                 int r = Convert.ToInt32(pixel.GetChannel(0) / 257);
                 int g = Convert.ToInt32(pixel.GetChannel(1) / 257);
                 int b = Convert.ToInt32(pixel.GetChannel(2) / 257);
                 int tolerance = 50;
 
-                return Math.Abs(r - 52) <= tolerance && Math.Abs(g - 95) <= tolerance && Math.Abs(b - 148) <= tolerance;
+                return Math.Abs(r - 133) <= tolerance && Math.Abs(g - 158) <= tolerance && Math.Abs(b - 183) <= tolerance;
             };
 
-            Func<Pixel, bool> isOrangePixel = (Pixel pixel) =>
+            Func<Pixel, bool> isTileEdgePixel = (Pixel pixel) =>
             {
                 int r = Convert.ToInt32(pixel.GetChannel(0) / 257);
                 int g = Convert.ToInt32(pixel.GetChannel(1) / 257);
                 int b = Convert.ToInt32(pixel.GetChannel(2) / 257);
                 int tolerance = 50;
-
-                return Math.Abs(r - 170) <= tolerance && Math.Abs(g - 103) <= tolerance && Math.Abs(b - 43) <= tolerance;
+                
+                return (Math.Abs(r - 216) <= tolerance && Math.Abs(g - 143) <= tolerance && Math.Abs(b - 27) <= tolerance)
+                        || (Math.Abs(r - 168) <= tolerance && Math.Abs(g - 151) <= tolerance && Math.Abs(b - 110) <= tolerance);
             };
 
             string src = screenImg;
             Console.WriteLine(Path.GetFileName(src));
 
-            int cellTopY = 1084;
-            int cellBottomY = 1180;
+            int cellTopY = 1054;
+            int cellBottomY = 1152;
             int cellMidY = cellTopY + ((cellBottomY - cellTopY) / 2);
+            int cellHeight = cellBottomY - cellTopY;
+            int cellWidth = cellHeight; // square
             List<LetterInfo> letterTiles = new List<LetterInfo>();
+
+            List<int> leftXs = new List<int>() { 2, 105, 208, 311, 414, 517, 619 };
  
             using (MagickImage image = new MagickImage(src))
             {
@@ -48,27 +53,31 @@ namespace WordsLib
                 {
                     Pixel pix = image.GetReadOnlyPixels()[x, cellMidY];
                     Pixel pixNext = image.GetReadOnlyPixels()[x + 1, cellMidY];
-                    if (isBluePixel(pix) && isOrangePixel(pixNext))
+                    ////if (isBackgroundPixel(pix) && isTileEdgePixel(pixNext))
+                    ////{
+                    ////    cellLeftX = pix.X;
+                    ////}
+                    ////else if (isTileEdgePixel(pix) && isBackgroundPixel(pixNext))
+                    ////{
+                    ////    cellRightX = pixNext.X;
+                    ////}
+
+                    if (leftXs.Contains(pix.X))
                     {
                         cellLeftX = pix.X;
-                    }
-                    else if (isOrangePixel(pix) && isBluePixel(pixNext))
-                    {
-                        cellRightX = pixNext.X;
+                        cellRightX = pix.X + cellWidth;
                     }
 
                     if (cellLeftX < cellRightX)
                     {
                         // tile identified
-                        int cellWidth = cellRightX - cellLeftX;
-                        int cellHeight = cellBottomY - cellTopY;
                         LetterInfo letterTile = GetLetterTileOrNull(image, cellLeftX, cellTopY, cellWidth, cellHeight, true, LetterOCR.GetHandCharacterMap);
 
-                        ////using (MagickImage image2 = new MagickImage(src))
-                        ////{
-                        ////    image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
-                        ////    image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
-                        ////}
+                        using (MagickImage image2 = new MagickImage(src))
+                        {
+                            image2.Crop(new MagickGeometry(cellLeftX, cellTopY, cellRightX - cellLeftX, cellBottomY - cellTopY));
+                            image2.Write(@"C:\temp\" + "img" + x + Path.GetRandomFileName() + ".png");
+                        }
 
                         if (letterTile == null)
                         {
@@ -92,7 +101,9 @@ namespace WordsLib
 
                         }
 
+                        // reset markers
                         cellRightX = 0;
+                        cellLeftX = image.Width;
                     }
                 }
             }

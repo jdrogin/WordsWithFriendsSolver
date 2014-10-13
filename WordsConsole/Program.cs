@@ -22,8 +22,13 @@ namespace WordsConsole
                 Console.WriteLine(LINE_OF_STARS + Environment.NewLine + Environment.NewLine);
 
                 // run
-                LetterMapGenerator.CreateBoardLettersMap();
+                //LetterMapGenerator.CreateBoardLettersMap();
                 //LetterMapGenerator.CreateHandLettersMap();
+
+                foreach (string boardImg in Directory.GetFiles("boards/V2"))
+                {
+                    BoardOCR.HandOCR(boardImg);
+                }
 
                 //WordsLookup dict = new WordsLookup();
                 //dict.Init();

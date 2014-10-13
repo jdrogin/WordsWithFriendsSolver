@@ -59,41 +59,333 @@
     <Compile Include="WordsLookup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="boards\Screenshot_2014-06-17-16-06-58.png" />
-    <Content Include="boards\Screenshot_2014-06-18-14-44-39.png" />
-    <Content Include="boards\Screenshot_2014-06-23-16-27-00.png" />
-    <Content Include="boards\Screenshot_2014-06-24-16-21-30.png" />
-    <Content Include="boards\Screenshot_2014-06-27-11-35-39.png" />
-    <Content Include="boards\Screenshot_2014-06-27-12-44-56.png" />
-    <Content Include="boards\Screenshot_2014-06-30-09-44-43.png" />
-    <Content Include="boards\Screenshot_2014-06-30-09-46-04.png" />
-    <Content Include="boards\Screenshot_2014-07-02-21-03-21.png" />
-    <Content Include="boards\Screenshot_2014-07-02-21-05-58.png" />
-    <Content Include="boards\Screenshot_2014-07-02-21-08-12.png" />
-    <Content Include="boards\Screenshot_2014-07-02-21-09-53.png" />
-    <Content Include="boards\Screenshot_2014-07-02-21-12-06.png" />
-    <Content Include="boards\Screenshot_2014-07-02-21-14-30.png" />
-    <Content Include="boards\Screenshot_2014-07-02-21-16-23.png" />
-    <Content Include="boards\Screenshot_2014-07-02-23-35-41.png" />
-    <Content Include="boards\Screenshot_2014-07-02-23-38-38.png" />
-    <Content Include="boards\Screenshot_2014-07-03-12-01-53.png" />
-    <Content Include="boards\Screenshot_2014-07-03-12-03-39.png" />
-    <Content Include="boards\Screenshot_2014-07-03-20-20-20.png" />
-    <Content Include="boards\Screenshot_2014-07-03-20-23-56.png" />
-    <Content Include="boards\Screenshot_2014-07-04-20-50-37.png" />
-    <Content Include="boards\Screenshot_2014-07-04-20-54-10.png" />
-    <Content Include="boards\Screenshot_2014-07-04-20-56-40.png" />
-    <Content Include="boards\Screenshot_2014-07-05-08-54-41.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-42-19.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-44-14.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-45-41.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-48-22.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-51-32.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-53-36.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-55-30.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-57-52.png" />
-    <Content Include="boards\Screenshot_2014-07-06-20-59-51.png" />
-    <Content Include="boards\Screenshot_2014-07-06-21-01-57.png" />
+    <Content Include="boards\V1\Screenshot_2014-06-17-16-06-58.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-06-18-14-44-39.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-06-23-16-27-00.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-06-24-16-21-30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-06-27-11-35-39.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-06-27-12-44-56.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-06-30-09-44-43.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-06-30-09-46-04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-21-03-21.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-21-05-58.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-21-08-12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-21-09-53.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-21-12-06.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-21-14-30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-21-16-23.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-23-35-41.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-02-23-38-38.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-03-12-01-53.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-03-12-03-39.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-03-20-20-20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-03-20-23-56.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-04-20-50-37.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-04-20-54-10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-04-20-56-40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-05-08-54-41.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-42-19.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-44-14.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-45-41.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-48-22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-51-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-53-36.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-55-30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-57-52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-20-59-51.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-06-21-01-57.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-27-22.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-29-08.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-30-59.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-32-38.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-34-06.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-35-59.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-37-16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-38-47.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-40-51.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-42-33.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-44-35.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-46-43.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-50-52.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-07-14-52-34.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-10-09-33.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-10-10-05.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-10-10-33.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-10-10-59.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-13-57-08.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-13-58-39.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-14-00-09.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-14-01-28.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-14-02-54.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-14-04-15.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-08-14-05-55.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-09-40-23.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-09-42-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-09-48-05.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-09-53-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-09-56-04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-11-53-35.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-11-55-40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-16-25-23.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-16-26-55.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-09-16-28-38.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-09-36-07.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-10-51-47.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-10-57-45.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-10-58-55.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-03-29.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-05-34.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-06-43.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-08-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-10-08.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-11-12.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-12-19.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-13-13-40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-14-07-48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-15-09-59.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V1\Screenshot_2014-07-10-15-13-18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-15-00-02.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-15-30-39.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-06-04.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-06-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-07-23.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-07-50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-08-18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-08-55.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-12-35.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-13-07.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-13-40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-14-11.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-14-40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-19-16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-20-18.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-10-21-22-27.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-13-15-07.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-13-19-38.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-13-21-54.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-13-27-20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-13-27-55.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-23-16-40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-23-18-55.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boards\V2\Screenshot_2014-10-11-23-20-32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="dictionary\words.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
