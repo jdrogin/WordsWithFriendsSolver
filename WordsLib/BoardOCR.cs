@@ -192,7 +192,7 @@ namespace WordsLib
                 int letterColorPixelCount = 0;
 
                 // get points value in upper right.  May be blank tile, will not have any letter color pixels in upper right
-                foreach (Pixel pixel in image.GetReadOnlyPixels(cellStartX + 32, cellStartY + 0, cellWidth - 32, 13))
+                foreach (Pixel pixel in image.GetReadOnlyPixels(cellStartX + cellWidth - 35, cellStartY, 35, 14))
                 {
                     if (IsLetterPixel(pixel))
                     {
@@ -220,7 +220,7 @@ namespace WordsLib
 
             int bitTolerance = Convert.ToInt32(256.0 * 0.20);
 
-            bool isWhite = (red > 248 && green > 248 && blue > 248);
+            bool isWhite = (red > 240 && green > 230 && blue > 210);
             bool isLetterColor = Math.Abs(red - 78) < bitTolerance && Math.Abs(green - 28) < bitTolerance && Math.Abs(blue - 0) < bitTolerance;
             bool pointMatches = isWhite || isLetterColor;
 
