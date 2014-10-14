@@ -131,7 +131,7 @@ namespace WordsLib
                         int cellStartX = gridStartX + x * cellWidth;
                         int cellStartY = gridStartY + y * cellHeight;
 
-                        ////// save tile as image for testing slice coordinates
+                        ////// debug - save tile as image for testing slice coordinates
                         ////using (MagickImage imageTile = new MagickImage(src))
                         ////{
                         ////    imageTile.Crop(new MagickGeometry(cellStartX, cellStartY, cellWidth, cellHeight));
@@ -171,13 +171,21 @@ namespace WordsLib
 
         private static LetterInfo GetLetterTileOrNull(MagickImage image, char currChar, int cellStartX, int cellStartY, int cellWidth, int cellHeight, bool isTransient, Func<char, LetterOCR> getCharacterMap)
         {
-            LetterOCRPoint[] points = getCharacterMap(currChar).Points;
+            LetterOCRPoint[] letterOcrPoints = getCharacterMap(currChar).Points;
             bool allPointsMatch = true;
 
-            foreach (LetterOCRPoint pnt in points)
+            // when score badge is present need to also allow for red as letter color
+            Pixel lowerRightPixel = image.GetReadOnlyPixels(cellStartX + cellWidth - 1, cellStartY + cellHeight - 1, 1, 1)[0, 0];
+            bool isLowerRightPixelRedOrWhite = IsRedPixel(lowerRightPixel) || IsWhitePixel(lowerRightPixel);
+
+            if (isLowerRightPixelRedOrWhite)
             {
-                Pixel pixel = image.GetReadOnlyPixels(cellStartX + pnt.x, cellStartY + pnt.y, 1, 1)[0, 0];
-                bool pointMatches = IsLetterPixel(pixel);
+                int i = 0;
+            }
+            foreach (LetterOCRPoint ocrPt in letterOcrPoints)
+            {
+                Pixel pixel = image.GetReadOnlyPixels(cellStartX + ocrPt.x, cellStartY + ocrPt.y, 1, 1)[0, 0];
+                bool pointMatches = IsBrownPixel(pixel) || IsWhitePixel(pixel) || (isLowerRightPixelRedOrWhite && IsRedPixel(pixel));
 
                 if (!pointMatches)
                 {
@@ -194,7 +202,7 @@ namespace WordsLib
                 // get points value in upper right.  May be blank tile, will not have any letter color pixels in upper right
                 foreach (Pixel pixel in image.GetReadOnlyPixels(cellStartX + cellWidth - 35, cellStartY, 35, 14))
                 {
-                    if (IsLetterPixel(pixel))
+                    if (IsBrownPixel(pixel) || IsWhitePixel(pixel))
                     {
                         letterColorPixelCount++;
                     }
@@ -210,7 +218,7 @@ namespace WordsLib
             }
         }
 
-        private static bool IsLetterPixel(Pixel pixel)
+        private static bool IsBrownPixel(Pixel pixel)
         {
             // RGBA:
             int red = Convert.ToInt32(pixel.GetChannel(0) / 257);
@@ -220,11 +228,33 @@ namespace WordsLib
 
             int bitTolerance = Convert.ToInt32(256.0 * 0.20);
 
-            bool isWhite = (red > 240 && green > 230 && blue > 210);
             bool isLetterColor = Math.Abs(red - 78) < bitTolerance && Math.Abs(green - 28) < bitTolerance && Math.Abs(blue - 0) < bitTolerance;
-            bool pointMatches = isWhite || isLetterColor;
+            return isLetterColor;
+        }
 
-            return pointMatches;
+        private static bool IsWhitePixel(Pixel pixel)
+        {
+            // RGBA:
+            int red = Convert.ToInt32(pixel.GetChannel(0) / 257);
+            int green = Convert.ToInt32(pixel.GetChannel(1) / 257);
+            int blue = Convert.ToInt32(pixel.GetChannel(2) / 257);
+            //int alpha = Convert.ToInt32(pixel.GetChannel(3) / 257);
+
+            bool isWhiteColor = red > 240 && green > 230 && blue > 210;
+            return isWhiteColor;
+        }
+
+        private static bool IsRedPixel(Pixel pixel)
+        {
+            // RGBA:
+            int red = Convert.ToInt32(pixel.GetChannel(0) / 257);
+            int green = Convert.ToInt32(pixel.GetChannel(1) / 257);
+            int blue = Convert.ToInt32(pixel.GetChannel(2) / 257);
+            //int alpha = Convert.ToInt32(pixel.GetChannel(3) / 257);
+
+            // RED => red is high, greater than both green and blue and green and blue are roughly equal
+            bool isRedColor = red > 200 && red - green > 20 && red - blue > 20 && Math.Abs(green - blue) < 20;
+            return isRedColor;
         }
 
         /// <summary>

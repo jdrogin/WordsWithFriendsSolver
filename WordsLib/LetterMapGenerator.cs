@@ -29,52 +29,6 @@ namespace WordsLib
                     {
                         if (IsLetterPixel(pixel) && PixelIsSurroundedBySameColor(image, pixel, 0.10))
                         {
-                            if ((pixel.X > 27 && pixel.Y > 28)
-
-                                && !(pixel.X == 28 && pixel.Y == 29)
-                                && !(pixel.X == 29 && pixel.Y == 29)
-                                && !(pixel.X == 30 && pixel.Y == 29)
-                                && !(pixel.X == 31 && pixel.Y == 29)
-                                && !(pixel.X == 33 && pixel.Y == 29)
-                                && !(pixel.X == 34 && pixel.Y == 29)
-
-                                && !(pixel.X == 28 && pixel.Y == 30)
-                                && !(pixel.X == 29 && pixel.Y == 30)
-                                && !(pixel.X == 30 && pixel.Y == 30)
-                                && !(pixel.X == 31 && pixel.Y == 30)
-                                && !(pixel.X == 32 && pixel.Y == 30)
-
-                                && !(pixel.X == 28 && pixel.Y == 31)
-                                && !(pixel.X == 29 && pixel.Y == 31)
-                                && !(pixel.X == 30 && pixel.Y == 31)
-                                && !(pixel.X == 31 && pixel.Y == 31)
-
-                                && !(pixel.X == 28 && pixel.Y == 32)
-                                && !(pixel.X == 29 && pixel.Y == 32)
-                                && !(pixel.X == 30 && pixel.Y == 32)
-
-                                && !(pixel.X == 28 && pixel.Y == 33)
-                                && !(pixel.X == 29 && pixel.Y == 33)
-
-                                && !(pixel.X == 28 && pixel.Y == 34))
-                            {
-                                // lower right corner may contain word score which is not part of the letter map
-                                continue;
-                            }
-
-                            //if (letterMap.ContainsPoint(pixel.X - 1, pixel.Y - 1)
-                            //    || letterMap.ContainsPoint(pixel.X, pixel.Y - 1)
-                            //    || letterMap.ContainsPoint(pixel.X + 1, pixel.Y - 1)
-                            //    || letterMap.ContainsPoint(pixel.X + 1, pixel.Y)
-                            //    || letterMap.ContainsPoint(pixel.X + 1, pixel.Y + 1)
-                            //    || letterMap.ContainsPoint(pixel.X, pixel.Y + 1)
-                            //    || letterMap.ContainsPoint(pixel.X - 1, pixel.Y + 1)
-                            //    || letterMap.ContainsPoint(pixel.X - 1, pixel.Y))
-                            //{
-                            //    // adjacent point already collected, skip
-                            //    continue;
-                            //}
-
                             Console.Write(string.Format(" {0},{1}", pixel.X, pixel.Y));
                             letterMap.AddXYPoint(pixel.X, pixel.Y);
                         }
@@ -338,7 +292,6 @@ namespace WordsLib
                     Console.Write("*");
                     previousX = point.x;
                     previousY = point.y;
-
                 }
             }
         }
