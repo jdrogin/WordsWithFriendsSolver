@@ -175,13 +175,17 @@ namespace WordsLib
             bool allPointsMatch = true;
 
             // when score badge is present need to also allow for red as letter color
-            Pixel lowerRightPixel = image.GetReadOnlyPixels(cellStartX + cellWidth - 1, cellStartY + cellHeight - 1, 1, 1)[0, 0];
-            bool isLowerRightPixelRedOrWhite = IsRedPixel(lowerRightPixel) || IsWhitePixel(lowerRightPixel);
-
-            if (isLowerRightPixelRedOrWhite)
+            bool isLowerRightPixelRedOrWhite = false;
+            int cornerScanLength = 3;
+            foreach (Pixel lowerRightPixel in image.GetReadOnlyPixels(cellStartX + cellWidth - cornerScanLength, cellStartY + cellHeight - cornerScanLength, cornerScanLength, cornerScanLength))
             {
-                int i = 0;
+                isLowerRightPixelRedOrWhite = IsRedPixel(lowerRightPixel) || IsWhitePixel(lowerRightPixel);
+                if (isLowerRightPixelRedOrWhite)
+                {
+                    break;
+                }
             }
+
             foreach (LetterOCRPoint ocrPt in letterOcrPoints)
             {
                 Pixel pixel = image.GetReadOnlyPixels(cellStartX + ocrPt.x, cellStartY + ocrPt.y, 1, 1)[0, 0];
@@ -253,7 +257,7 @@ namespace WordsLib
             //int alpha = Convert.ToInt32(pixel.GetChannel(3) / 257);
 
             // RED => red is high, greater than both green and blue and green and blue are roughly equal
-            bool isRedColor = red > 200 && red - green > 20 && red - blue > 20 && Math.Abs(green - blue) < 20;
+            bool isRedColor = red > 150 && red - green > 20 && red - blue > 20 && Math.Abs(green - blue) < 20;
             return isRedColor;
         }
 
